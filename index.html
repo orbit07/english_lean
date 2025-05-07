@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My English Phrase App</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#4b6cb7" />
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #eaf0fa;
+    color: #333;
+}
+body {
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    box-sizing: border-box;
+}
+h2, h3 {
+    text-align: center;
+    color: #4b6cb7;
+}
+input, button, textarea, select {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 12px;
+    padding: 0.3em;
+    font-size: 1em;
+    background: #f0f4fc;
+    color: #333;
+}
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #9dbdff;
+}
+button {
+    background: #4b6cb7;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+button:hover {
+    background: #3f5ca3;
+}
+.phrase-item {
+    margin: 0.5em 0;
+    padding: .6em;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.button-group {
+    display: flex;
+    gap: 0.5em;
+    margin-top: 0.5em;
+}
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+#listScreen {
+    display: none;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+#fixedHeader {
+    position: sticky;
+    top: 0;
+    background-color: #eaf0fa;
+    z-index: 10;
+    padding-bottom: 0.5em;
+}
+#scrollableList {
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-bottom: 1em;
+}
+.nav-buttons {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+}
+</style>
+</head>
+<body>
+
+<!-- 画面切り替えボタン -->
+<div class="nav-buttons">
+  <button onclick="showScreen('form')">➕ 登録画面</button>
+  <button onclick="showScreen('list')">📋 フレーズ一覧</button>
+</div>
+
+<!-- 登録画面 -->
+<div id="formScreen">
+  <label>YouTube URL:</label>
+  <input id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=xxxx" />
+
+  <label>Start Time (seconds):</label>
+  <input type="text" id="startTime" placeholder="e.g. 45" />
+
+  <label>Phrase:</label>
+  <textarea id="phrase" placeholder="Enter your phrase here..."></textarea>
+
+  <button id="saveBtn" onclick="savePhrase()">Save Phrase</button>
+</div>
+
+<!-- 一覧・動画画面 -->
+<div id="listScreen">
+  <div id="fixedHeader">
+    <div class="video-wrapper" id="videoContainer" style="margin: 1em 0;"></div>
+    <select id="filterSelect" onchange="applyFilter()">
+      <option value="all">すべてのフレーズ</option>
+      <option value="current">この動画のみ</option>
+    </select>
+  </div>
+  <div id="scrollableList">
+    <div id="phraseList"></div>
+  </div>
+</div>
+
+<script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('serviceWorker.js');
+    }
+</script>
+
+<script>
+let dbInstance;
+let phrases = [];
+let allPhrases = [];
+let videoId = "";
+
+function openDB() {
+  const request = indexedDB.open("PhraseAppDB", 1);
+  request.onupgradeneeded = function(event) {
+    const db = event.target.result;
+    db.createObjectStore("phrases", { keyPath: "id", autoIncrement: true });
+  };
+  request.onsuccess = function(event) {
+    dbInstance = event.target.result;
+    console.log("DB opened");
+    loadAllPhrases();
+  };
+  request.onerror = function() {
+    alert("IndexedDB failed to open");
+  };
+}
+
+function extractVideoId(url) {
+  const match = url.match(/(?:\?v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]+)/);
+  return match ? match[1] : "";
+}
+
+function showVideo(vid) {
+  document.getElementById("videoContainer").innerHTML =
+    `<iframe id="youtubePlayer" src="https://www.youtube.com/embed/${vid}?enablejsapi=1" frameborder="0" allowfullscreen></iframe>`;
+}
+
+function parseTimeToSeconds(timeStr) {
+  if (/^\d+:\d{1,2}$/.test(timeStr)) {
+    const [min, sec] = timeStr.split(":").map(Number);
+    return min * 60 + sec;
+  } else if (/^\d+$/.test(timeStr)) {
+    return parseInt(timeStr, 10);
+  } else {
+    return NaN;
+  }
+}
+
+function savePhrase() {
+  const url = document.getElementById("youtubeUrl").value;
+  const newVideoId = extractVideoId(url);
+  const rawTime = document.getElementById("startTime").value.trim();
+  const time = parseTimeToSeconds(rawTime);
+  const text = document.getElementById("phrase").value.trim();
+
+  if (newVideoId && !isNaN(time) && text) {
+    videoId = newVideoId;
+    const entry = { videoId, time, text };
+    const tx = dbInstance.transaction("phrases", "readwrite");
+    const store = tx.objectStore("phrases");
+    store.add(entry);
+    tx.oncomplete = () => {
+      document.getElementById("startTime").value = "";
+      document.getElementById("phrase").value = "";
+      document.getElementById("youtubeUrl").value = "";
+      showVideo(videoId);
+      loadAllPhrases();
+      showScreen('list');
+    };
+  }
+}
+
+function updatePhrase(id) {
+  const time = parseInt(document.getElementById("startTime").value);
+  const text = document.getElementById("phrase").value.trim();
+  if (videoId && time >= 0 && text) {
+    const tx = dbInstance.transaction("phrases", "readwrite");
+    const store = tx.objectStore("phrases");
+    store.put({ id, videoId, time, text });
+    tx.oncomplete = () => {
+      document.getElementById("startTime").value = "";
+      document.getElementById("phrase").value = "";
+      document.getElementById("saveBtn").textContent = "Save Phrase";
+      document.getElementById("saveBtn").onclick = savePhrase;
+      loadAllPhrases();
+    };
+  }
+}
+
+function deletePhrase(id) {
+  const tx = dbInstance.transaction("phrases", "readwrite");
+  const store = tx.objectStore("phrases");
+  store.delete(id);
+  tx.oncomplete = () => {
+    loadAllPhrases();
+  };
+}
+
+function loadAllPhrases() {
+  const tx = dbInstance.transaction("phrases", "readonly");
+  const store = tx.objectStore("phrases");
+  const request = store.getAll();
+  request.onsuccess = () => {
+    allPhrases = request.result;
+    applyFilter();
+  };
+}
+
+function applyFilter() {
+  const filter = document.getElementById("filterSelect").value;
+  if (filter === "current") {
+    phrases = allPhrases.filter(p => p.videoId === videoId);
+  } else {
+    phrases = allPhrases;
+  }
+  renderPhraseList();
+}
+
+function renderPhraseList() {
+  const container = document.getElementById("phraseList");
+  container.innerHTML = "";
+  phrases.forEach((p) => {
+    const div = document.createElement("div");
+    div.className = "phrase-item";
+    const minutes = Math.floor(p.time / 60);
+    const seconds = p.time % 60;
+    const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+    const phraseText = document.createElement("span");
+    phraseText.textContent = `▶️ [${timeFormatted}] ${p.text}`;
+    phraseText.style.cursor = "pointer";
+    phraseText.onclick = () => {
+      showScreen('list');
+      showVideo(p.videoId);
+      const iframe = document.getElementById("youtubePlayer");
+      if (iframe) {
+        iframe.src = `https://www.youtube.com/embed/${p.videoId}?start=${p.time}&autoplay=1`;
+      }
+    };
+
+    const buttonGroup = document.createElement("div");
+    buttonGroup.className = "button-group";
+
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "✏️ Edit";
+    editBtn.onclick = () => {
+      document.getElementById("startTime").value = p.time;
+      document.getElementById("phrase").value = p.text;
+      document.getElementById("youtubeUrl").value = `https://www.youtube.com/watch?v=${p.videoId}`;
+      videoId = p.videoId;
+      document.getElementById("saveBtn").textContent = "Update Phrase";
+      document.getElementById("saveBtn").onclick = () => updatePhrase(p.id);
+      showScreen('form');
+    };
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "🗑️ Delete";
+    deleteBtn.onclick = () => deletePhrase(p.id);
+
+    buttonGroup.appendChild(editBtn);
+    buttonGroup.appendChild(deleteBtn);
+
+    div.appendChild(phraseText);
+    div.appendChild(buttonGroup);
+    container.appendChild(div);
+  });
+}
+
+function showScreen(screen) {
+  document.getElementById("formScreen").style.display = (screen === 'form') ? 'block' : 'none';
+  document.getElementById("listScreen").style.display = (screen === 'list') ? 'flex' : 'none';
+}
+
+window.onload = () => {
+  showScreen('list');
+  openDB();
+};
+</script>
+
+</body>
+</html>
