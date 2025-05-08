@@ -1,20 +1,21 @@
 {
-  "name": "My English Phrase App",
-  "short_name": "PhraseApp",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#eaf0fa",
-  "theme_color": "#4b6cb7",
-  "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+    "name": "My English Phrase App",
+    "short_name": "PhraseApp",
+    "start_url": "/english_lean/index.html",
+    "scope": "/english_lean/",
+    "display": "standalone",
+    "background_color": "#eaf0fa",
+    "theme_color": "#4b6cb7",
+    "icons": [
+        {
+            "src": "icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
 }
