@@ -181,74 +181,82 @@ function showVideo(vid) {
 }
 
 function parseTimeToSeconds(timeStr) {
-  if (/^\d+:\d{1,2}$/.test(timeStr)) {
-    const [min, sec] = timeStr.split(":").map(Number);
-    return min * 60 + sec;
-  } else if (/^\d+$/.test(timeStr)) {
-    return parseInt(timeStr, 10);
-  } else {
-    return NaN;
-  }
+    if (/^\d+:\d{1,2}$/.test(timeStr)) {
+        const [min, sec] = timeStr.split(":").map(Number);
+        return min * 60 + sec;
+    } else if (/^\d+$/.test(timeStr)) {
+        return parseInt(timeStr, 10);
+    } else {
+        return NaN;
+    }
 }
 
 function savePhrase() {
-  const url = document.getElementById("youtubeUrl").value;
-  const newVideoId = extractVideoId(url);
-  const rawTime = document.getElementById("startTime").value.trim();
-  const time = parseTimeToSeconds(rawTime);
-  const text = document.getElementById("phrase").value.trim();
+    const url = document.getElementById("youtubeUrl").value;
+    const newVideoId = extractVideoId(url);
+    const rawTime = document.getElementById("startTime").value.trim();
+    const time = parseTimeToSeconds(rawTime);
+    const text = document.getElementById("phrase").value.trim();
 
-  if (newVideoId && !isNaN(time) && text) {
-    videoId = newVideoId;
-    const entry = { videoId, time, text };
-    const tx = dbInstance.transaction("phrases", "readwrite");
-    const store = tx.objectStore("phrases");
-    store.add(entry);
-    tx.oncomplete = () => {
-      document.getElementById("startTime").value = "";
-      document.getElementById("phrase").value = "";
-      document.getElementById("youtubeUrl").value = "";
-      showVideo(videoId);
-      loadAllPhrases();
-      showScreen('list');
-    };
-  }
+    if (newVideoId && !isNaN(time) && text) {
+        videoId = newVideoId;
+        const entry = { videoId, time, text };
+        const tx = dbInstance.transaction("phrases", "readwrite");
+        const store = tx.objectStore("phrases");
+        store.add(entry);
+        tx.oncomplete = () => {
+        document.getElementById("startTime").value = "";
+        document.getElementById("phrase").value = "";
+        document.getElementById("youtubeUrl").value = "";
+        showVideo(videoId);
+        loadAllPhrases();
+        showScreen('list');
+        };
+    }
+}
+
+function resetFormToNewEntry() {
+    document.getElementById("startTime").value = "";
+    document.getElementById("phrase").value = "";
+    document.getElementById("youtubeUrl").value = "";
+    document.getElementById("saveBtn").textContent = "Save Phrase";
+    document.getElementById("saveBtn").onclick = savePhrase;
 }
 
 function updatePhrase(id) {
-  const time = parseInt(document.getElementById("startTime").value);
-  const text = document.getElementById("phrase").value.trim();
-  if (videoId && time >= 0 && text) {
-    const tx = dbInstance.transaction("phrases", "readwrite");
-    const store = tx.objectStore("phrases");
-    store.put({ id, videoId, time, text });
-    tx.oncomplete = () => {
-      document.getElementById("startTime").value = "";
-      document.getElementById("phrase").value = "";
-      document.getElementById("saveBtn").textContent = "Save Phrase";
-      document.getElementById("saveBtn").onclick = savePhrase;
-      loadAllPhrases();
-    };
-  }
+    const rawTime = document.getElementById("startTime").value.trim();
+    const time = parseTimeToSeconds(rawTime);
+    const text = document.getElementById("phrase").value.trim();
+    const url = document.getElementById("youtubeUrl").value;
+    const newVideoId = extractVideoId(url);
+    if (newVideoId && !isNaN(time) && text) {
+        const tx = dbInstance.transaction("phrases", "readwrite");
+        const store = tx.objectStore("phrases");
+        store.put({ id, videoId: newVideoId, time, text });
+        tx.oncomplete = () => {
+        resetFormToNewEntry();
+        loadAllPhrases();
+        };
+    }
 }
 
 function deletePhrase(id) {
-  const tx = dbInstance.transaction("phrases", "readwrite");
-  const store = tx.objectStore("phrases");
-  store.delete(id);
-  tx.oncomplete = () => {
-    loadAllPhrases();
-  };
+    const tx = dbInstance.transaction("phrases", "readwrite");
+    const store = tx.objectStore("phrases");
+    store.delete(id);
+    tx.oncomplete = () => {
+        loadAllPhrases();
+    };
 }
 
 function loadAllPhrases() {
-  const tx = dbInstance.transaction("phrases", "readonly");
-  const store = tx.objectStore("phrases");
-  const request = store.getAll();
-  request.onsuccess = () => {
-    allPhrases = request.result;
-    applyFilter();
-  };
+    const tx = dbInstance.transaction("phrases", "readonly");
+    const store = tx.objectStore("phrases");
+    const request = store.getAll();
+    request.onsuccess = () => {
+        allPhrases = request.result;
+        applyFilter();
+    };
 }
 
 function applyFilter() {
@@ -314,6 +322,9 @@ function renderPhraseList() {
 function showScreen(screen) {
   document.getElementById("formScreen").style.display = (screen === 'form') ? 'block' : 'none';
   document.getElementById("listScreen").style.display = (screen === 'list') ? 'flex' : 'none';
+  if (screen === 'form') {
+    resetFormToNewEntry();
+  }
 }
 
 window.onload = () => {
