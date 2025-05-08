@@ -1,0 +1,102 @@
+tml, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #eaf0fa;
+    color: #333;
+}
+body {
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+ul, li {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+h2, h3 {
+    text-align: center;
+    color: #4b6cb7;
+}
+input, button, textarea, select {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 12px;
+    padding: 0.3em;
+    font-size: 1em;
+    background: #fff;
+    color: #333;
+}
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #9dbdff;
+}
+button {
+    background: #4b6cb7;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+button:hover {
+    background: #3f5ca3;
+}
+.phrase-item {
+    margin: 0.5em 0;
+    padding: .6em;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.button-group {
+    display: flex;
+    gap: 0.5em;
+    margin-top: 0.5em;
+}
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.fixedHeader {
+    position: sticky;
+    top: 0;
+    background-color: #eaf0fa;
+    z-index: 10;
+    padding: 1em 1em 0.5em;
+}
+.phraseList {
+    flex-grow: 1;
+    padding: 0 1em 1em;
+}
+.nav-buttons {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+}
+.formList {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin: 1em 0;
+}
+.formList li label {
+    display: inline-block;
+    padding-bottom: 0.2em;
+}
