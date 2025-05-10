@@ -100,3 +100,17 @@ button:hover {
     display: inline-block;
     padding-bottom: 0.2em;
 }
+.active-tag-filter {
+    background-color: #fff;
+    color: #4b6cb7;
+    border: 1px solid #4b6cb7;
+}
+.tagList {
+    margin-bottom: 1em;
+}
+.tagList button {
+    width: auto;
+}
+.tag-group button {
+    width: auto;
+}

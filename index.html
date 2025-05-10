@@ -37,6 +37,16 @@
                 <label>Phrase:</label>
                 <textarea id="phrase" placeholder="Enter your phrase here..."></textarea>
             </li>
+            <li>
+                <!-- タグ入力 -->
+                <label>タグ:</label>
+                <div style="display: flex; gap: 0.5em; margin-bottom: 0.5em;">
+                    <input id="tagInput" placeholder="タグを入力" />
+                    <button type="button" onclick="addTag()">追加</button>
+                </div>
+                <div id="tagList" class="tagList"></div>
+            </li>
+
         </ul>
 
         <button id="saveBtn" onclick="savePhrase()">Save Phrase</button>
@@ -45,9 +55,10 @@
     <!-- 動画表示エリア -->
     <div id="videoScreen">
         <div class="video-wrapper" id="videoContainer" style="margin: 1em 0;"></div>
-        <select id="filterSelect" onchange="applyFilter()">
+        <select id="filterSelect" onchange="loadAllPhrases()">
             <option value="all">すべてのフレーズ</option>
             <option value="current">この動画のみ</option>
+            <option value="favorite">お気に入りのみ</option>
         </select>
     </div>
 
