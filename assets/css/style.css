@@ -114,3 +114,9 @@ button:hover {
 .tag-group button {
     width: auto;
 }
+.tag-button {
+    margin: 0 0.2em;
+}
+.phrase-text {
+    cursor: pointer;
+}
