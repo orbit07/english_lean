@@ -132,7 +132,7 @@ function loadAvailableTags() {
 }
 
 function openDB() {
-  const request = indexedDB.open("PhraseAppDB", 1);
+  const request = indexedDB.open("PhraseAppDB", 2);
   request.onupgradeneeded = function(event) {
     const db = event.target.result;
     if (!db.objectStoreNames.contains("phrases")) {
