@@ -93,3 +93,14 @@ function createDeleteButton(p) {
   btn.onclick = () => deletePhrase(p.id);
   return btn;
 }
+
+export function resetFormToNewEntry() {
+    document.getElementById("startTime").value = "";
+    document.getElementById("phrase").value = "";
+    document.getElementById("youtubeUrl").value = "";
+    document.getElementById("saveBtn").textContent = "Save Phrase";
+    selectedTags = [];
+    renderTagList();
+    editingId = null;
+}
+  
