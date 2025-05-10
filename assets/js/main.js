@@ -324,8 +324,27 @@ function showScreen(screen) {
 window.onload = () => {
   showScreen('list');
   openDB();
-  setTimeout(() => {
-    document.getElementById("filterSelect").value = "all";
-    loadAllPhrases();
-  }, 0);
 };
+
+function openDB() {
+  const request = indexedDB.open("PhraseAppDB", 2);
+  request.onupgradeneeded = function(event) {
+    const db = event.target.result;
+    if (!db.objectStoreNames.contains("phrases")) {
+      db.createObjectStore("phrases", { keyPath: "id", autoIncrement: true });
+    }
+    if (!db.objectStoreNames.contains("tags")) {
+      db.createObjectStore("tags", { keyPath: "id" });
+    }
+  };
+  request.onsuccess = function(event) {
+    dbInstance = event.target.result;
+    console.log("DB opened");
+    document.getElementById("filterSelect").value = "all";
+    loadAvailableTags();
+    loadAllPhrases();
+  };
+  request.onerror = function() {
+    alert("IndexedDB failed to open");
+  };
+}
