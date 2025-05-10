@@ -1,20 +1,23 @@
-let dbInstance;
-let videoId = "";
-let editingId = null;
-let selectedTags = [];
-let availableTags = [];
-let activeTagFilter = null;
+let dbInstance; // IndexedDBのインスタンス
+let videoId = ""; // 現在表示中のYouTube動画ID
+let editingId = null; // 編集中のフレーズID
+let selectedTags = []; // 現在選択されているタグ
+let availableTags = []; // 利用可能なタグ一覧
+let activeTagFilter = null; // 現在適用されているタグフィルター
 
+// YouTubeのURLから動画IDを抽出する関数
 function extractVideoId(url) {
   const match = url.match(/(?:\?v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]+)/);
   return match ? match[1] : "";
 }
 
+// YouTube動画を埋め込む関数
 function showVideo(vid) {
   document.getElementById("videoContainer").innerHTML =
     `<iframe id="youtubePlayer" src="https://www.youtube.com/embed/${vid}?enablejsapi=1" frameborder="0" allowfullscreen></iframe>`;
 }
 
+// 時間文字列を秒数に変換する関数
 function parseTimeToSeconds(timeStr) {
   if (/^\d+:\d{1,2}$/.test(timeStr)) {
     const [min, sec] = timeStr.split(":").map(Number);
@@ -26,6 +29,7 @@ function parseTimeToSeconds(timeStr) {
   }
 }
 
+// フォームを新規入力状態にリセットする関数
 function resetFormToNewEntry() {
   document.getElementById("startTime").value = "";
   document.getElementById("phrase").value = "";
@@ -36,6 +40,7 @@ function resetFormToNewEntry() {
   renderTagList();
 }
 
+// フレーズを削除する関数
 function deletePhrase(id) {
   const tx = dbInstance.transaction("phrases", "readwrite");
   const store = tx.objectStore("phrases");
@@ -45,6 +50,7 @@ function deletePhrase(id) {
   };
 }
 
+// 全フレーズを読み込む関数
 function loadAllPhrases() {
   const tx = dbInstance.transaction("phrases", "readonly");
   const store = tx.objectStore("phrases");
@@ -55,20 +61,21 @@ function loadAllPhrases() {
   };
 }
 
+// フレーズにフィルターを適用する関数
 function applyFilter(allPhrases) {
   const filterSelectElement = document.getElementById("filterSelect");
   const filter = filterSelectElement ? filterSelectElement.value : "all";
   let filtered;
 
-  if (filter === "current") {
+  if (filter === "current") { // 「この動画のみ」でフィルター
     filtered = allPhrases.filter(p => p.videoId === videoId);
-  } else if (filter === "favorite") {
+  } else if (filter === "favorite") { // 「お気に入りのみ」でフィルター
     filtered = allPhrases.filter(p => p.favorite);
-  } else {
+  } else { // 「すべてのフレーズ」でフィルター
     filtered = allPhrases;
   }
 
-  // ✅ 追加: タグフィルターが指定されている場合、さらに絞り込む
+  // タグフィルターが指定されている場合、さらに絞り込む
   if (activeTagFilter) {
     filtered = filtered.filter(p => p.tags && p.tags.includes(activeTagFilter));
   }
@@ -76,6 +83,7 @@ function applyFilter(allPhrases) {
   renderPhraseList(filtered);
 }
 
+// タグを追加する関数
 function addTag() {
   const tagInput = document.getElementById("tagInput");
   const tag = tagInput.value.trim();
@@ -87,6 +95,7 @@ function addTag() {
   }
 }
 
+// タグの選択状態を切り替える関数
 function toggleTag(tag) {
   const index = selectedTags.indexOf(tag);
   if (index > -1) {
@@ -97,6 +106,7 @@ function toggleTag(tag) {
   renderTagList();
 }
 
+// タグを削除する関数
 function removeTag(tag) {
   availableTags = availableTags.filter(t => t !== tag);
   selectedTags = selectedTags.filter(t => t !== tag);
@@ -108,17 +118,26 @@ function removeTag(tag) {
   loadAllPhrases();
 }
 
+// タグフィルターを切り替える関数
 function toggleTagFilter(tag) {
   activeTagFilter = (activeTagFilter === tag) ? null : tag;
   loadAllPhrases();
 }
 
+// タグフィルターをリストから切り替える関数
+function toggleTagFilterFromList(tag) {
+  activeTagFilter = (activeTagFilter === tag) ? null : tag;
+  loadAllPhrases();
+}
+
+// 利用可能なタグを保存する関数
 function saveAvailableTags() {
   const tx = dbInstance.transaction("tags", "readwrite");
   const store = tx.objectStore("tags");
   store.put({ id: "all", tags: availableTags });
 }
 
+// 利用可能なタグを読み込む関数
 function loadAvailableTags() {
   const tx = dbInstance.transaction("tags", "readonly");
   const store = tx.objectStore("tags");
@@ -131,6 +150,7 @@ function loadAvailableTags() {
   };
 }
 
+// IndexedDBを開く関数
 function openDB() {
   const request = indexedDB.open("PhraseAppDB", 2);
   request.onupgradeneeded = function(event) {
@@ -153,6 +173,7 @@ function openDB() {
   };
 }
 
+// フレーズを保存する関数
 function savePhrase() {
   const url = document.getElementById("youtubeUrl").value;
   const newVideoId = extractVideoId(url);
@@ -169,7 +190,7 @@ function savePhrase() {
       favorite: false
     };
 
-    if (editingId !== null) {
+    if (editingId !== null) { // 編集時
       const tx = dbInstance.transaction("phrases", "readonly");
       const store = tx.objectStore("phrases");
       const getRequest = store.get(editingId);
@@ -186,7 +207,7 @@ function savePhrase() {
           showScreen('list');
         };
       };
-    } else {
+    } else { // 新規登録時
       const tx = dbInstance.transaction("phrases", "readwrite");
       const store = tx.objectStore("phrases");
       store.add(entry);
@@ -200,6 +221,7 @@ function savePhrase() {
   }
 }
 
+// タグリストを描画する関数
 function renderTagList() {
   const container = document.getElementById("tagList");
   container.innerHTML = "";
@@ -219,12 +241,6 @@ function renderTagList() {
     container.appendChild(tagButton);
     container.appendChild(removeButton);
   });
-}
-
-// 一覧表示用タグクリックフィルター追加
-toggleTagFilterFromList = function(tag) {
-  activeTagFilter = (activeTagFilter === tag) ? null : tag;
-  loadAllPhrases();
 }
 
 function renderPhraseList(phrases) {
@@ -313,6 +329,7 @@ function renderPhraseList(phrases) {
   });
 }
 
+// 画面を切り替える関数
 function showScreen(screen) {
   document.getElementById("formScreen").style.display = (screen === 'form') ? 'block' : 'none';
   document.getElementById("listScreen").style.display = (screen === 'list') ? 'flex' : 'none';
@@ -326,6 +343,7 @@ function showScreen(screen) {
   }
 }
 
+// ページ読み込み時に初期化処理を実行
 window.onload = () => {
   showScreen('list');
   openDB();
