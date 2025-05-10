@@ -170,16 +170,21 @@ function savePhrase() {
     };
 
     if (editingId !== null) {
-      const existing = allPhrases.find(p => p.id === editingId);
-      entry.id = editingId;
-      entry.favorite = existing ? existing.favorite : false; // 元の状態を維持
-      const tx = dbInstance.transaction("phrases", "readwrite");
+      const tx = dbInstance.transaction("phrases", "readonly");
       const store = tx.objectStore("phrases");
-      store.put(entry);
-      tx.oncomplete = () => {
-        resetFormToNewEntry();
-        loadAllPhrases();
-        showScreen('list');
+      const getRequest = store.get(editingId);
+      getRequest.onsuccess = () => {
+        const existing = getRequest.result;
+        entry.id = editingId;
+        entry.favorite = existing ? existing.favorite : false;
+        const tx2 = dbInstance.transaction("phrases", "readwrite");
+        const store2 = tx2.objectStore("phrases");
+        store2.put(entry);
+        tx2.oncomplete = () => {
+          resetFormToNewEntry();
+          loadAllPhrases();
+          showScreen('list');
+        };
       };
     } else {
       const tx = dbInstance.transaction("phrases", "readwrite");
