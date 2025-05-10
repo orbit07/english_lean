@@ -1,3 +1,8 @@
+import { dbInstance, availableTags } from './state.js';
+import { renderTagList } from './tags.js';
+import { loadAllPhrases } from './phrases.js';
+import { applyFilter } from './phrases.js';
+
 // IndexedDBを開く関数
 export function openDB() {
     const request = indexedDB.open("PhraseAppDB", 2);

@@ -1,7 +1,7 @@
 import { showScreen, showVideo } from './ui.js';
-import { renderTagList } from './tags.js';
+import { renderTagList, toggleTagFilterFromList } from './tags.js';
 import { loadAllPhrases, deletePhrase } from './db.js';
-import { dbInstance, videoId, editingId, selectedTags } from './state.js';
+import { dbInstance, videoId } from './state.js';
 
 // フレーズ一覧のレンダリング処理
 export function renderPhraseList(phrases) {

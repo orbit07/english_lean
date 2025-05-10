@@ -1,3 +1,8 @@
+import { availableTags, selectedTags, activeTagFilter } from './state.js';
+import { saveAvailableTags } from './db.js';
+import { loadAllPhrases } from './db.js';
+import { renderTagList } from './tags.js';
+
 // タグを追加する関数
 export function addTag() {
     const tagInput = document.getElementById("tagInput");
