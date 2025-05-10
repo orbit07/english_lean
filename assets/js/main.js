@@ -1,7 +1,7 @@
 // 必要なモジュールをインポート
 import { openDB, saveAvailableTags, loadAvailableTags, loadAllPhrases, deletePhrase } from './db.js';
 import { addTag, toggleTag, removeTag, toggleTagFilter, toggleTagFilterFromList, renderTagList } from './tags.js';
-import { savePhrase, applyFilter, renderPhraseList, resetFormToNewEntry } from './phrases.js';
+import { renderPhraseList } from './phrases.js';
 import { extractVideoId, showVideo, parseTimeToSeconds, showScreen } from './ui.js';
 
 // グローバル変数
