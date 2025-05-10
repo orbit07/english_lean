@@ -1,3 +1,6 @@
+import { editingId } from './state.js';
+import { resetFormToNewEntry } from './phrases.js';
+
 // YouTubeのURLから動画IDを抽出する関数
 export function extractVideoId(url) {
     const match = url.match(/(?:\?v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]+)/);
@@ -27,7 +30,7 @@ export function showScreen(screen) {
     document.getElementById("formScreen").style.display = (screen === 'form') ? 'block' : 'none';
     document.getElementById("listScreen").style.display = (screen === 'list') ? 'flex' : 'none';
     document.getElementById("videoScreen").style.display = (screen === 'list') ? 'block' : 'none';
-  
+
     if (screen === 'list') {
         editingId = null; // 一覧画面に戻ったときに編集状態をリセット
     }
