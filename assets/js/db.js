@@ -1,7 +1,6 @@
 // 必要な関数や変数をインポート
 import * as state from './state.js';
 import { renderTagList } from './tags.js';
-import { loadAllPhrases } from './phrases.js';
 import { applyFilter } from './phrases.js';
 import { showToast } from './toast.js';
 
@@ -30,7 +29,7 @@ export function openDB() {
 
       console.log("DB opened");
       state.db.onerror = event => showToast('DBエラー: ' + event.target.error, true);
-      
+
       loadAvailableTags();
       loadAllPhrases();
     };

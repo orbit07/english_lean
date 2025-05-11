@@ -1,7 +1,7 @@
 // 必要な関数や変数をインポート
 import { showScreen, showVideo, parseTimeToSeconds, extractVideoId } from './ui.js';
 import { renderTagList, toggleTagFilterFromList } from './tags.js';
-import { loadAllPhrases, deletePhrase } from './db.js';
+import { loadAllPhrases } from './db.js';
 import * as state from './state.js';
 import { showToast } from './toast.js';
 
@@ -144,7 +144,7 @@ export function renderPhraseList(phrases) {
         const editBtn = document.createElement("button");
         editBtn.textContent = "✏️ Edit";
         editBtn.onclick = () => {
-            document.getElementById("startTime").value = p.time;
+            document.getElementById("startTime").value = `${Math.floor(p.time/60)}:${(p.time%60).toString().padStart(2,'0')}`;
             document.getElementById("phrase").value = p.text;
             document.getElementById("youtubeUrl").value = `https://www.youtube.com/watch?v=${p.db}`;
             state.db = p.db;
