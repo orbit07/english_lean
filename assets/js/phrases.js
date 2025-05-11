@@ -5,11 +5,10 @@ import { renderTagList, toggleTagFilterFromList } from './tags.js';
 import { loadAllPhrases } from './db.js';
 import { showToast } from './toast.js';
 
-console.log('phrases.js state:', state);
+console.log('phrases.js state ID   :', state);
 
 // フレーズを保存する関数
 export function savePhrase() {
-    console.log('savePhrase state.db =', state.db);
     const url = document.getElementById("youtubeUrl").value;
     const newVideoId = extractVideoId(url);
     const rawTime = document.getElementById("startTime").value.trim();

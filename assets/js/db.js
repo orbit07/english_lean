@@ -21,14 +21,13 @@ export function openDB() {
     };
     request.onsuccess = function(event) {
       state.db = event.target.result;
-      console.log('DB ready:', state.db);
+      console.log('db.js     state ID   :', state);
 
       state.db.onversionchange = () => {
         state.db.close();
         showToast('DB の新しいバージョンがあります。再読込してください', true, 5000);
       };
 
-      console.log("DB opened");
       state.db.onerror = event => showToast('DBエラー: ' + event.target.error, true);
 
       loadAvailableTags();
