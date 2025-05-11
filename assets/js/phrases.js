@@ -1,8 +1,8 @@
 // 必要な関数や変数をインポート
+import { state } from './state.js';
 import { showScreen, showVideo, parseTimeToSeconds, extractVideoId } from './ui.js';
 import { renderTagList, toggleTagFilterFromList } from './tags.js';
 import { loadAllPhrases } from './db.js';
-import * as state from './state.js';
 import { showToast } from './toast.js';
 
 // フレーズを保存する関数

@@ -1,5 +1,5 @@
 // 必要な関数や変数をインポート
-import * as state from './state.js';
+import { state } from './state.js';
 import { saveAvailableTags, loadAllPhrases } from './db.js';
 
 // タグを追加する関数

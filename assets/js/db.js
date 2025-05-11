@@ -1,5 +1,5 @@
 // 必要な関数や変数をインポート
-import * as state from './state.js';
+import { state } from './state.js';
 import { renderTagList } from './tags.js';
 import { applyFilter } from './phrases.js';
 import { showToast } from './toast.js';

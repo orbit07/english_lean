@@ -1,5 +1,5 @@
 // 必要な関数や変数をインポート
-import * as state from './state.js';
+import { state } from './state.js';
 import { resetFormToNewEntry } from './phrases.js';
 
 // YouTubeのURLから動画IDを抽出する関数
