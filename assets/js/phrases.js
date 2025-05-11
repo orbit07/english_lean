@@ -118,11 +118,11 @@ export function renderPhraseList(phrases) {
         phraseText.style.cursor = "pointer";
         phraseText.onclick = () => {
             showScreen('list');
-            showVideo(p.db);
-            state.db = p.db;
+            showVideo(p.videoId);
+            state.currentVideoId = p.videoId;
             const iframe = document.getElementById("youtubePlayer");
             if (iframe) {
-                iframe.src = `https://www.youtube.com/embed/${p.db}?start=${p.time}&autoplay=1`;
+                iframe.src = `https://www.youtube.com/embed/${p.videoId}?start=${p.time}&autoplay=1`;
             }
         };
     
@@ -147,8 +147,9 @@ export function renderPhraseList(phrases) {
         editBtn.onclick = () => {
             document.getElementById("startTime").value = `${Math.floor(p.time/60)}:${(p.time%60).toString().padStart(2,'0')}`;
             document.getElementById("phrase").value = p.text;
-            document.getElementById("youtubeUrl").value = `https://www.youtube.com/watch?v=${p.db}`;
-            state.db = p.db;
+            document.getElementById("youtubeUrl").value = `https://www.youtube.com/watch?v=${p.videoId}`;
+            showVideo(p.videoId);
+            state.currentVideoId = p.videoId; 
             state.editingId = p.id;
             state.selectedTags = [...(p.tags || [])];
             renderTagList();
