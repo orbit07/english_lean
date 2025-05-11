@@ -24,6 +24,7 @@ export function savePhrase() {
 
         if (state.editingId !== null) { // 編集時
             const tx = state.db.transaction("phrases", "readonly");
+            tx.onerror = () => showToast('フレーズの取得に失敗しました', true);
             const store = tx.objectStore("phrases");
             const getRequest = store.get(state.editingId);
             getRequest.onsuccess = () => {
@@ -44,10 +45,10 @@ export function savePhrase() {
             tx.onerror = () => console.error('フレーズの取得に失敗しました');
         } else { // 新規登録時
             const tx = state.db.transaction("phrases", "readwrite");
-            tx.onerror = () => showToast('フレーズの登録に失敗しました', true);
+            tx.onerror = () => showToast('フレーズの保存に失敗しました', true);
             const store = tx.objectStore("phrases");
             const req = store.add(entry);
-            req.onerror = () => console.error('フレーズの登録に失敗しました');
+            req.onerror = () => console.error('フレーズの保存に失敗しました');
             tx.oncomplete = () => {
                 resetFormToNewEntry();
                 showVideo(newVideoId);

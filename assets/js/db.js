@@ -9,17 +9,21 @@ import { showToast } from './toast.js';
 export function openDB() {
     const request = indexedDB.open("PhraseAppDB", 2);
 
+    request.onblocked = () => showToast('別タブでアプリを閉じてから再読込してください', true);
+    state.db.onversionchange = () => {
+      state.db.close();
+      showToast('DB の新しいバージョンがあります。再読込してください', true, 5000);
+    };
+
     request.onerror = () => console.error('データベースを開けませんでした');
 
     request.onupgradeneeded = function(event) {
       const db = event.target.result;
       if (!db.objectStoreNames.contains("phrases")) {
         db.createObjectStore("phrases", { keyPath: "id", autoIncrement: true });
-        request.onerror = () => console.error('フレーズ用のデータベースストアを作成できませんでした');
       }
       if (!db.objectStoreNames.contains("tags")) {
         db.createObjectStore("tags", { keyPath: "id" });
-        request.onerror = () => console.error('タグ用のデータベースストアを作成できませんでした');
       }
     };
     request.onsuccess = function(event) {
@@ -46,7 +50,7 @@ export function saveAvailableTags() {
 // 利用可能なタグを読み込む関数
 export function loadAvailableTags() {
     const tx = state.db.transaction("tags", "readonly");
-    tx.onerror = () => console.error('タグの読み込みに失敗しました');
+    tx.onerror = () => showToast('タグの取得に失敗しました', true);
     const store = tx.objectStore("tags");
     const request = store.get("all");
     request.onsuccess = () => {
@@ -60,10 +64,10 @@ export function loadAvailableTags() {
 // 全フレーズを読み込む関数
 export function loadAllPhrases() {
     const tx = state.db.transaction("phrases", "readonly");
-    tx.onerror = () => console.error('フレーズの読み込みに失敗しました');
+    tx.onerror = () => showToast('フレーズの取得に失敗しました', true);
     const store = tx.objectStore("phrases");
     const request = store.getAll();
-    request.onerror = () => console.error('フレーズの読み込みに失敗しました');
+    request.onerror = () => console.error('フレーズの取得に失敗しました');
     request.onsuccess = () => {
         const allPhrases = request.result;
         applyFilter(allPhrases);
