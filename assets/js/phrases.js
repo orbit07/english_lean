@@ -7,7 +7,6 @@ import { showToast } from './toast.js';
 
 // フレーズを保存する関数
 export function savePhrase() {
-  console.log('savePhrase state.db =', state.db);
     const url = document.getElementById("youtubeUrl").value;
     const newVideoId = extractVideoId(url);
     const rawTime = document.getElementById("startTime").value.trim();
@@ -31,6 +30,7 @@ export function savePhrase() {
             getRequest.onsuccess = () => {
                 const existing = getRequest.result;
                 entry.id = state.editingId;
+                console.log('savePhrase state.db =', state.db);
                 entry.favorite = existing ? existing.favorite : false;
                 const tx2 = state.db.transaction("phrases", "readwrite");
                 tx2.onerror = () => showToast('フレーズの保存に失敗しました', true);
