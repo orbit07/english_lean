@@ -6,6 +6,7 @@ import { showToast } from './toast.js';
 
 // IndexedDBを開く関数
 export function openDB() {
+  console.log('savePhrase state.db =', state.db);
     const request = indexedDB.open("PhraseAppDB", 2);
 
     request.onerror = () => console.error('データベースを開けませんでした');
@@ -21,7 +22,6 @@ export function openDB() {
     };
     request.onsuccess = function(event) {
       state.db = event.target.result;
-      console.log('db.js     state ID   :', state);
 
       state.db.onversionchange = () => {
         state.db.close();

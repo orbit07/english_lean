@@ -1,13 +1,13 @@
-import { showScreen } from './ui.js';
 import { openDB, loadAllPhrases } from './db.js';
-import { addTag } from './tags.js';
+import { showScreen } from './ui.js';
 import { savePhrase } from './phrases.js';
+import { addTag } from './tags.js';
 
 // ページ読み込み時に初期化処理を実行
 window.onload = () => {
   showScreen('list');
   openDB();
-  
+
   document.getElementById('formButton').addEventListener('click', () => showScreen('form'));
   document.getElementById('listButton').addEventListener('click', () => showScreen('list'));
   document.getElementById('addTagButton').addEventListener('click', () => addTag());
