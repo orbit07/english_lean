@@ -1,7 +1,7 @@
 import { showScreen } from './ui.js';
 import { openDB } from './db.js';
-import { addTag } from './tag.js';
-import { savePhrase } from './phrase.js';
+import { addTag } from './tags.js';
+import { savePhrase } from './phrases.js';
 
 // ページ読み込み時に初期化処理を実行
 window.onload = () => {
