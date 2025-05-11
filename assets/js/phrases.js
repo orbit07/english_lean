@@ -151,7 +151,7 @@ export function renderPhraseList(phrases) {
             state.editingId = p.id;
             state.selectedTags = [...(p.tags || [])];
             renderTagList();
-            document.getElementById("saveBtn").textContent = "Update Phrase";
+            document.getElementById("saveButton").textContent = "Update Phrase";
             showScreen('form');
         };
     
@@ -182,7 +182,7 @@ export function resetFormToNewEntry() {
     document.getElementById("startTime").value = "";
     document.getElementById("phrase").value = "";
     document.getElementById("youtubeUrl").value = "";
-    document.getElementById("saveBtn").textContent = "Save Phrase";
+    document.getElementById("saveButton").textContent = "Save Phrase";
     state.editingId = null;
     state.selectedTags = [];
     renderTagList();
