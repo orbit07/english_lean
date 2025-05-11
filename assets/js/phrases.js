@@ -32,10 +32,10 @@ export function savePhrase() {
                 entry.id = state.editingId;
                 entry.favorite = existing ? existing.favorite : false;
                 const tx2 = state.db.transaction("phrases", "readwrite");
-                tx2.onerror = () => showToast('フレーズの更新に失敗しました', true);
+                tx2.onerror = () => showToast('フレーズの保存に失敗しました', true);
                 const store2 = tx2.objectStore("phrases");
                 const req = store2.put(entry);
-                req.onerror = () => console.error('フレーズの更新に失敗しました');
+                req.onerror = () => console.error('フレーズの保存に失敗しました');
                 tx2.oncomplete = () => {
                     resetFormToNewEntry();
                     loadAllPhrases();

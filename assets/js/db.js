@@ -9,12 +9,6 @@ import { showToast } from './toast.js';
 export function openDB() {
     const request = indexedDB.open("PhraseAppDB", 2);
 
-    request.onblocked = () => showToast('別タブでアプリを閉じてから再読込してください', true);
-    state.db.onversionchange = () => {
-      state.db.close();
-      showToast('DB の新しいバージョンがあります。再読込してください', true, 5000);
-    };
-
     request.onerror = () => console.error('データベースを開けませんでした');
 
     request.onupgradeneeded = function(event) {
@@ -28,8 +22,15 @@ export function openDB() {
     };
     request.onsuccess = function(event) {
       state.db = event.target.result;
+
+      state.db.onversionchange = () => {
+        state.db.close();
+        showToast('DB の新しいバージョンがあります。再読込してください', true, 5000);
+      };
+
       console.log("DB opened");
       state.db.onerror = event => showToast('DBエラー: ' + event.target.error, true);
+      
       loadAvailableTags();
       loadAllPhrases();
     };
