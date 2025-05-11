@@ -1,4 +1,5 @@
-import { editingId } from './state.js';
+// 必要な関数や変数をインポート
+import * as state from './state.js';
 import { resetFormToNewEntry } from './phrases.js';
 
 // YouTubeのURLから動画IDを抽出する関数
@@ -30,11 +31,11 @@ export function showScreen(screen) {
     document.getElementById("formScreen").style.display = (screen === 'form') ? 'block' : 'none';
     document.getElementById("listScreen").style.display = (screen === 'list') ? 'flex' : 'none';
     document.getElementById("videoScreen").style.display = (screen === 'list') ? 'block' : 'none';
-
+  
     if (screen === 'list') {
-        editingId = null; // 一覧画面に戻ったときに編集状態をリセット
+        state.editingId = null; // 一覧画面に戻ったときに編集状態をリセット
     }
-    if (screen === 'form' && editingId === null) {
+    if (screen === 'form' && state.editingId === null) {
         resetFormToNewEntry();
     }
 }
