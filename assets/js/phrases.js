@@ -13,7 +13,7 @@ export function savePhrase() {
     
     const videoId = extractVideoId(url);
     const time = parseTimeToSeconds(rawTime);
-    
+
     console.log('videoId =', videoId, '| url =', url, '| phrase =', text, '| time =', time);
     if (!videoId || !text) {
       showToast('URL またはフレーズが未入力です', true);
@@ -25,7 +25,6 @@ export function savePhrase() {
 
     if (videoId && !isNaN(time) && text) {
         const entry = {
-          id: state.editingId ?? undefined,
           videoId,
           time,
           text: text,
@@ -58,7 +57,7 @@ export function savePhrase() {
             const tx = state.db.transaction("phrases", "readwrite");
             tx.onerror = () => showToast('フレーズの保存に失敗しました', true);
             const store = tx.objectStore("phrases");
-            const req = state.editingId ? store.put(entry) : store.add(entry);
+            const req   = state.editingId !== null ? store.put(entry) : store.add(entry);
             req.onsuccess = () => {
               showToast(state.editingId ? '更新しました' : '保存しました');
               resetFormToNewEntry();            // フォームをクリア

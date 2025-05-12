@@ -6,18 +6,26 @@ import { resetFormToNewEntry } from './phrases.js';
 export function extractVideoId(text = '') {
     text = text.trim();
   
-    // 1) すでに 11 文字 ID だけが入っていたらそのまま
-    if (/^[a-zA-Z0-9_-]{11}$/.test(text)) return text;
-  
-    // 2) youtu.be/XXXX 形式
-    const short = text.match(/^https?:\/\/youtu\.be\/([a-zA-Z0-9_-]{11})(?:\?.*)?$/);
-    if (short) return short[1];
-  
-    // 3) youtube.com/watch?v=XXXX や /embed/XXXX
-    const long = text.match(/[?&]v=([a-zA-Z0-9_-]{11})|\/embed\/([a-zA-Z0-9_-]{11})/);
-    if (long) return long[1] || long[2];
-  
-    return null; // いずれも該当しない
+    // ① すでに 11 文字 ID だけ
+  if (/^[a-zA-Z0-9_-]{11}$/.test(text)) return text;
+
+  // ② 短縮 URL … youtu.be/XXXXXXXXXXX
+  const mShort = text.match(/^https?:\/\/youtu\.be\/([a-zA-Z0-9_-]{11})(?:\?.*)?$/);
+  if (mShort) return mShort[1];
+
+  // ③ 通常再生 … watch?v=XXXXXXXXXXX
+  const mWatch = text.match(/[?&]v=([a-zA-Z0-9_-]{11})(?:&|$)/);
+  if (mWatch) return mWatch[1];
+
+  // ④ 埋め込み … /embed/XXXXXXXXXXX
+  const mEmbed = text.match(/\/embed\/([a-zA-Z0-9_-]{11})(?:\?|$)/);
+  if (mEmbed) return mEmbed[1];
+
+  // ⑤ ライブ配信 … /live/XXXXXXXXXXX
+  const mLive = text.match(/\/live\/([a-zA-Z0-9_-]{11})(?:\?|$)/);
+  if (mLive) return mLive[1];
+
+  return null;          // どの形式でも取れなかった
 }
 
 // YouTube動画を埋め込む関数
