@@ -2,6 +2,7 @@
 import { state } from './state.js';
 import { saveAvailableTags, loadAllPhrases } from './db.js';
 
+// ---------------- タグ CRUD ----------------
 // タグを追加する関数
 export function addTag() {
     const tagInput = document.getElementById("tagInput");
@@ -12,17 +13,6 @@ export function addTag() {
         renderTagList();
         saveAvailableTags(); // タグ追加時に保存
     }
-}
-
-// タグの選択状態を切り替える関数
-export function toggleTag(tag) {
-    const index = state.selectedTags.indexOf(tag);
-    if (index > -1) {
-        state.selectedTags.splice(index, 1);
-    } else {
-        state.selectedTags.push(tag);
-    }
-    renderTagList();
 }
 
 // タグを削除する関数
@@ -37,6 +27,7 @@ export function removeTag(tag) {
     loadAllPhrases();
 }
 
+// -------------- タグフィルター --------------
 // タグフィルターを切り替える関数
 export function toggleTagFilter(tag) {
     state.activeTagFilter = (state.activeTagFilter === tag) ? null : tag;
@@ -45,15 +36,17 @@ export function toggleTagFilter(tag) {
   
 // タグフィルターをリストから切り替える関数
 export function toggleTagFilterFromList(tag) {
-    state.activeTagFilter = (state.activeTagFilter === tag) ? null : tag;
-    loadAllPhrases();
+    toggleTagFilter(tag);
 }
 
+// -------------- ビュー更新 --------------
 // タグリストを描画する関数
 export function renderTagList() {
     const container = document.getElementById("tagList");
+    if (!container) return;
     container.innerHTML = "";
     state.availableTags.forEach(tag => {
+        // メインボタン
         const tagButton = document.createElement("button");
         tagButton.textContent = tag;
         tagButton.style.margin = "0.2em";
@@ -61,6 +54,7 @@ export function renderTagList() {
         tagButton.style.color = state.selectedTags.includes(tag) ? "white" : "#333";
         tagButton.onclick = () => toggleTag(tag);
     
+        // 削除ボタン
         const removeButton = document.createElement("button");
         removeButton.textContent = "❌";
         removeButton.style.margin = "0.2em";
@@ -69,4 +63,9 @@ export function renderTagList() {
         container.appendChild(tagButton);
         container.appendChild(removeButton);
     });
+}
+
+// phrases.js から呼ばれ、フォーム側のタグボタンを最新状態に合わせて更新する
+export function updateTagButtons() {
+    renderTagList();
 }

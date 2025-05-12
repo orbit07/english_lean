@@ -1,7 +1,7 @@
 // 必要な関数や変数をインポート
 import { state } from './state.js';
 import { showScreen, showVideo, parseTimeToSeconds, extractVideoId } from './ui.js';
-import { renderTagList, toggleTagFilterFromList } from './tags.js';
+import { renderTagList, toggleTagFilterFromList, updateTagButtons } from './tags.js';
 import { loadAllPhrases } from './db.js';
 import { showToast } from './toast.js';
 
@@ -166,7 +166,6 @@ export function renderPhraseList(phrases) {
             state.currentVideoId = p.videoId; 
             state.editingId = p.id;
             state.selectedTags = [...(p.tags || [])];
-            renderTagList();
             updateTagButtons();
             document.getElementById("saveButton").textContent = "Update Phrase";
             showScreen('form');
@@ -202,6 +201,5 @@ export function resetFormToNewEntry() {
     document.getElementById("saveButton").textContent = "Save Phrase";
     state.editingId = null;
     state.selectedTags = [];
-    renderTagList();
     updateTagButtons();
 }
