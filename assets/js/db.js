@@ -6,7 +6,7 @@ import { showToast } from './toast.js';
 
 // IndexedDBを開く関数
 export function openDB() {
-    const request = indexedDB.open("PhraseAppDB", 2);
+    const request = indexedDB.open("PhraseAppDB", 1);
 
     request.onerror = () => console.error('データベースを開けませんでした');
 

@@ -167,6 +167,7 @@ export function renderPhraseList(phrases) {
             state.editingId = p.id;
             state.selectedTags = [...(p.tags || [])];
             renderTagList();
+            updateTagButtons();
             document.getElementById("saveButton").textContent = "Update Phrase";
             showScreen('form');
         };
@@ -202,4 +203,5 @@ export function resetFormToNewEntry() {
     state.editingId = null;
     state.selectedTags = [];
     renderTagList();
+    updateTagButtons();
 }
