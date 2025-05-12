@@ -13,7 +13,7 @@ export function savePhrase() {
     const rawTime = document.getElementById("startTime").value.trim();
     
     const videoId = extractVideoId(url);
-    console.log('DEBUG videoId =', videoId, 'url =', url, '| phrase =', text);
+    console.log('videoId =', videoId, '| url =', url, '| phrase =', phraseTxt, '| time =', time);
     if (!videoId || !text) {
       showToast('URL またはフレーズが未入力です', true);
       return;
@@ -24,7 +24,7 @@ export function savePhrase() {
     
     const time = parseTimeToSeconds(rawTime);
 
-    if (newVideoId && !isNaN(time) && text) {
+    if (videoId && !isNaN(time) && text) {
         const entry = {
           id: state.editingId ?? undefined,
           videoId,
@@ -68,7 +68,7 @@ export function savePhrase() {
             req.onerror = () => console.error('フレーズの保存に失敗しました');
             tx.oncomplete = () => {
                 resetFormToNewEntry();
-                showVideo(newVideoId);
+                showVideo(videoId);
                 loadAllPhrases();
                 showScreen('list');
             };
