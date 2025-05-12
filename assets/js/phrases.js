@@ -12,6 +12,8 @@ export function savePhrase() {
     const rawTime = document.getElementById("startTime").value.trim();
     
     const videoId = extractVideoId(url);
+    const time = parseTimeToSeconds(rawTime);
+    
     console.log('videoId =', videoId, '| url =', url, '| phrase =', text, '| time =', time);
     if (!videoId || !text) {
       showToast('URL またはフレーズが未入力です', true);
@@ -20,8 +22,6 @@ export function savePhrase() {
     if (!state.editingId) {
       state.currentVideoId = videoId;
     }
-    
-    const time = parseTimeToSeconds(rawTime);
 
     if (videoId && !isNaN(time) && text) {
         const entry = {
