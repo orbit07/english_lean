@@ -8,19 +8,29 @@ import { showToast } from './toast.js';
 // フレーズを保存する関数
 export function savePhrase() {
   console.log('savePhrase state.db =', state.db);
-    const url = document.getElementById("youtubeUrl").value;
-    const newVideoId = extractVideoId(url);
-    const rawTime = document.getElementById("startTime").value.trim();
-    const time = parseTimeToSeconds(rawTime);
+    const url = document.getElementById("youtubeUrl").value.trim();
     const text = document.getElementById("phrase").value.trim();
+    const rawTime = document.getElementById("startTime").value.trim();
+    
+    const videoId = extractVideoId(url);
+    if (!videoId || !text) {
+      showToast('URL またはフレーズが未入力です', true);
+      return;
+    }
+    if (!state.editingId) {
+      state.currentVideoId = videoId;
+    }
+    
+    const time = parseTimeToSeconds(rawTime);
 
     if (newVideoId && !isNaN(time) && text) {
         const entry = {
-            videoId: newVideoId,
-            time,
-            text,
-            tags: [...state.selectedTags], // タグを保存
-            favorite: false
+          id: state.editingId ?? undefined,
+          videoId,
+          time,
+          text: text,
+          tags: [...state.selectedTags], // タグを保存
+          favorite: false
         };
 
         if (state.editingId !== null) { // 編集時
@@ -48,7 +58,12 @@ export function savePhrase() {
             const tx = state.db.transaction("phrases", "readwrite");
             tx.onerror = () => showToast('フレーズの保存に失敗しました', true);
             const store = tx.objectStore("phrases");
-            const req = store.add(entry);
+            const req = state.editingId ? store.put(entry) : store.add(entry);
+            req.onsuccess = () => {
+              showToast(state.editingId ? '更新しました' : '保存しました');
+              resetFormToNewEntry();            // フォームをクリア
+              loadAllPhrases();                 // 一覧を再描画
+            };
             req.onerror = () => console.error('フレーズの保存に失敗しました');
             tx.oncomplete = () => {
                 resetFormToNewEntry();
