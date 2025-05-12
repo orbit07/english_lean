@@ -5,6 +5,8 @@ import { renderTagList, toggleTagFilterFromList, updateTagButtons } from './tags
 import { loadAllPhrases } from './db.js';
 import { showToast } from './toast.js';
 
+console.log('▶️ before save', JSON.stringify(entry));
+
 // フレーズを保存する関数
 export function savePhrase() {
     const url = document.getElementById("youtubeUrl").value.trim();
@@ -14,7 +16,6 @@ export function savePhrase() {
     const videoId = extractVideoId(url);
     const time = parseTimeToSeconds(rawTime);
 
-    console.log('videoId =', videoId, '| url =', url, '| phrase =', text, '| time =', time);
     if (!videoId || !text) {
       showToast('URL またはフレーズが未入力です', true);
       return;
@@ -99,18 +100,16 @@ export function applyFilter(allPhrases) {
 
 export function renderPhraseList(phrases) {
     const container = document.getElementById("phraseList");
-    const tagGroup = document.createElement("div");
     container.innerHTML = "";
     phrases.forEach((p) => {
         const div = document.createElement("div");
         div.className = "phrase-item";
+        const tagGroup = document.createElement("div");
         const minutes = Math.floor(p.time / 60);
         const seconds = p.time % 60;
         const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
     
         const phraseText = document.createElement("span");
-    
-        tagGroup.className = "tag-group";
     
         if (p.tags && p.tags.length > 0) {
             p.tags.forEach(tag => {

@@ -21,7 +21,6 @@ export function openDB() {
     };
     request.onsuccess = function(event) {
       state.db = event.target.result;
-      console.log('savePhrase state.db =', state.db);
 
       state.db.onversionchange = () => {
         state.db.close();
