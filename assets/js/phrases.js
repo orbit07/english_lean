@@ -165,7 +165,7 @@ export function renderPhraseList(phrases) {
             showVideo(p.videoId);
             state.currentVideoId = p.videoId; 
             state.editingId = p.id;
-            state.selectedTags = [...entry.tags];
+            state.selectedTags = [...(p.tags || [])];
             updateTagButtons();
             renderTagList();
             document.getElementById("saveButton").textContent = "Update Phrase";
