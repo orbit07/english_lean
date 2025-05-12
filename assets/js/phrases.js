@@ -165,7 +165,8 @@ export function renderPhraseList(phrases) {
             showVideo(p.videoId);
             state.currentVideoId = p.videoId; 
             state.editingId = p.id;
-            state.selectedTags = [...(p.tags || [])];
+            state.selectedTags = [...entry.tags];
+            updateTagButtons();
             renderTagList();
             document.getElementById("saveButton").textContent = "Update Phrase";
             showScreen('form');
@@ -201,5 +202,6 @@ export function resetFormToNewEntry() {
     document.getElementById("saveButton").textContent = "Save Phrase";
     state.editingId = null;
     state.selectedTags = [];
+    updateTagButtons();
     renderTagList();
 }
