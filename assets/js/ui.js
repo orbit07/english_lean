@@ -3,9 +3,21 @@ import { state } from './state.js';
 import { resetFormToNewEntry } from './phrases.js';
 
 // YouTubeのURLから動画IDを抽出する関数
-export function extractVideoId(url) {
-    const match = url.match(/(?:\?v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]+)/);
-    return match ? match[1] : "";
+export function extractVideoId(text = '') {
+    text = text.trim();
+  
+    // 1) すでに 11 文字 ID だけが入っていたらそのまま
+    if (/^[a-zA-Z0-9_-]{11}$/.test(text)) return text;
+  
+    // 2) youtu.be/XXXX 形式
+    const short = text.match(/^https?:\/\/youtu\.be\/([a-zA-Z0-9_-]{11})(?:\?.*)?$/);
+    if (short) return short[1];
+  
+    // 3) youtube.com/watch?v=XXXX や /embed/XXXX
+    const long = text.match(/[?&]v=([a-zA-Z0-9_-]{11})|\/embed\/([a-zA-Z0-9_-]{11})/);
+    if (long) return long[1] || long[2];
+  
+    return null; // いずれも該当しない
 }
 
 // YouTube動画を埋め込む関数
