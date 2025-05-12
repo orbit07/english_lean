@@ -12,7 +12,7 @@ export function savePhrase() {
     const rawTime = document.getElementById("startTime").value.trim();
     
     const videoId = extractVideoId(url);
-    console.log('videoId =', videoId, '| url =', url, '| phrase =', phraseTxt, '| time =', time);
+    console.log('videoId =', videoId, '| url =', url, '| phrase =', text, '| time =', time);
     if (!videoId || !text) {
       showToast('URL またはフレーズが未入力です', true);
       return;
