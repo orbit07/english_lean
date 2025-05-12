@@ -15,6 +15,17 @@ export function addTag() {
     }
 }
 
+// タグを選択または解除する関数
+export function toggleTag(tag) {
+    const index = state.selectedTags.indexOf(tag);
+    if (index > -1) {
+        state.selectedTags.splice(index, 1);
+    } else {
+        state.selectedTags.push(tag);
+    }
+    renderTagList();
+}
+
 // タグを削除する関数
 export function removeTag(tag) {
     state.availableTags = state.availableTags.filter(t => t !== tag);
