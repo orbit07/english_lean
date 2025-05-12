@@ -7,13 +7,12 @@ import { showToast } from './toast.js';
 
 // フレーズを保存する関数
 export function savePhrase() {
-  console.log('savePhrase state.db =', state.db);
+  console.log('videoId =', videoId, '| url =', url, '| phrase =', phraseTxt, '| time =', time);
     const url = document.getElementById("youtubeUrl").value.trim();
     const text = document.getElementById("phrase").value.trim();
     const rawTime = document.getElementById("startTime").value.trim();
     
     const videoId = extractVideoId(url);
-    console.log('videoId =', videoId, '| url =', url, '| phrase =', phraseTxt, '| time =', time);
     if (!videoId || !text) {
       showToast('URL またはフレーズが未入力です', true);
       return;
