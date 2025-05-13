@@ -5,8 +5,6 @@ import { renderTagList, toggleTagFilterFromList, updateTagButtons } from './tags
 import { loadAllPhrases } from './db.js';
 import { showToast } from './toast.js';
 
-console.log('▶️ before save', JSON.stringify(entry));
-
 // フレーズを保存する関数
 export function savePhrase() {
     const url = document.getElementById("youtubeUrl").value.trim();
@@ -32,6 +30,7 @@ export function savePhrase() {
           tags: [...state.selectedTags], // タグを保存
           favorite: false
         };
+        console.log('▶️ before save', JSON.stringify(entry));   // ← ★ここ
 
         if (state.editingId !== null) { // 編集時
             const tx = state.db.transaction("phrases", "readonly");
@@ -104,7 +103,7 @@ export function renderPhraseList(phrases) {
     phrases.forEach((p) => {
         const div = document.createElement("div");
         div.className = "phrase-item";
-        const tagGroup = document.createElement("div");
+        // const tagGroup = document.createElement("div");
         const minutes = Math.floor(p.time / 60);
         const seconds = p.time % 60;
         const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
@@ -113,6 +112,7 @@ export function renderPhraseList(phrases) {
     
         if (p.tags && p.tags.length > 0) {
             p.tags.forEach(tag => {
+                const tagGroup = document.createElement('div');
                 const tagBtn = document.createElement("button");
                 tagBtn.textContent = `#${tag}`;
                 tagBtn.style.margin = "0 0.2em";
