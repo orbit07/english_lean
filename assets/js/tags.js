@@ -60,7 +60,7 @@ export function renderTagList() {
         // メインボタン
         const tagButton = document.createElement("button");
         tagButton.textContent = tag;
-        tagButton.style.margin = "0.2em";
+        tagButton.classList.add('tag-button');
         tagButton.style.backgroundColor = state.selectedTags.includes(tag) ? "#4b6cb7" : "#f0f4fc";
         tagButton.style.color = state.selectedTags.includes(tag) ? "white" : "#333";
         tagButton.onclick = () => toggleTag(tag);

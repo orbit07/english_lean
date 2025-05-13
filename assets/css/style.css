@@ -100,11 +100,25 @@ button:hover {
     display: inline-block;
     padding-bottom: 0.2em;
 }
-.active-tag-filter {
-    background-color: #fff;
-    color: #4b6cb7;
+/* タグボタン共通 */
+.tag-btn {
+    margin: 0 0.2em;
+    padding: 2px 6px;
     border: 1px solid #4b6cb7;
+    background: #f0f4fc;
+    color: #333;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
 }
+  
+/* 選択中（タグを押した or フィルタ中） */
+.tag-btn.active {
+    background: #4b6cb7;
+    color: #fff;
+}
+
 .tagList {
     margin-bottom: 1em;
 }

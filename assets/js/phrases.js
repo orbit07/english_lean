@@ -112,17 +112,17 @@ export function renderPhraseList(phrases) {
     
         if (p.tags && p.tags.length > 0) {
             p.tags.forEach(tag => {
-                const tagBtn = document.createElement("button");
-                tagBtn.textContent = `#${tag}`;
-                tagBtn.style.margin = "0 0.2em";
+                const tagButton = document.createElement("button");
+                tagButton.textContent = `#${tag}`;
+                tagButton.classList.add('tag-button');
                 if (state.activeTagFilter === tag) {
-                    tagBtn.classList.add("active-tag-filter");
+                  tagButton.classList.add('active');
                 }
-                tagBtn.onclick = (e) => {
+                tagButton.onclick = (e) => {
                     e.stopPropagation();
                     toggleTagFilterFromList(tag);
                 };
-                tagGroup.appendChild(tagBtn);
+                tagGroup.appendChild(tagButton);
             });
         }
     
