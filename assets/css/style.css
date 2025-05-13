@@ -113,6 +113,10 @@ button:hover {
     cursor: pointer;
     transition: background 0.2s;
 }
+
+.tagButton {
+    display: inline-block;;
+}
   
 /* 選択中（タグを押した or フィルタ中） */
 .tagButton.active {
@@ -141,10 +145,6 @@ button:hover {
 .tag-group button {
     width: auto;
 }
-.tag-button {
-    margin: 0 0.2em;
-}
-.tag-button.active {}
 .phrase-text {
     cursor: pointer;
 }
