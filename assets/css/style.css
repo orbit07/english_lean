@@ -115,6 +115,7 @@ button:hover {
 }
 
 .tagButton {
+    width: auto;
     display: inline-block;;
 }
   
