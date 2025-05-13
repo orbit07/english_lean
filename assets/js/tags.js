@@ -58,10 +58,11 @@ export function renderTagList() {
     container.innerHTML = "";
     state.availableTags.forEach(tag => {
         // メインボタン
+        const isSelected = state.selectedTags.includes(tag);
         const tagButton = document.createElement("button");
-        tagButton.textContent = tag;
+        tagButton.textContent = `#${tag}`;
         tagButton.classList.add('tagButton');
-        tagButton.classList.toggle('selected', condition);
+        tagButton.classList.toggle('selected', isSelected);
         tagButton.onclick = () => toggleTag(tag);
     
         // 削除ボタン
