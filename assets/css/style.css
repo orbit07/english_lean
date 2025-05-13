@@ -101,7 +101,8 @@ button:hover {
     padding-bottom: 0.2em;
 }
 /* タグボタン共通 */
-.tag-btn {
+.tagButton,
+.remove-button {
     margin: 0 0.2em;
     padding: 2px 6px;
     border: 1px solid #4b6cb7;
@@ -114,9 +115,21 @@ button:hover {
 }
   
 /* 選択中（タグを押した or フィルタ中） */
-.tag-btn.active {
+.tagButton.active {
     background: #4b6cb7;
     color: #fff;
+}
+
+.tagButton.selected {
+    background: #4b6cb7;
+    color: #fff;
+}
+.screen {
+    display: block;
+}
+  
+.hidden {
+    display: none !important;
 }
 
 .tagList {
@@ -155,4 +168,8 @@ button:hover {
 }
 .toast.error {
     background:#d93025;
+}
+
+.phrase_text {
+    cursor: pointer;
 }

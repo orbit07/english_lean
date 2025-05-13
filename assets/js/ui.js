@@ -48,10 +48,9 @@ export function parseTimeToSeconds(timeStr) {
 
 // 画面を切り替える関数
 export function showScreen(screen) {
-    document.getElementById("formScreen").style.display = (screen === 'form') ? 'block' : 'none';
-    document.getElementById("listScreen").style.display = (screen === 'list') ? 'flex' : 'none';
-    document.getElementById("videoScreen").style.display = (screen === 'list') ? 'block' : 'none';
-  
+    document.getElementById('formScreen').classList.toggle('hidden', screen !== 'form');
+    document.getElementById('listScreen').classList.toggle('hidden', screen !== 'list');
+    document.getElementById('videoScreen').classList.toggle('hidden', screen !== 'list');
     if (screen === 'list') {
         state.editingId = null; // 一覧画面に戻ったときに編集状態をリセット
     }

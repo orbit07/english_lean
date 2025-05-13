@@ -60,15 +60,14 @@ export function renderTagList() {
         // メインボタン
         const tagButton = document.createElement("button");
         tagButton.textContent = tag;
-        tagButton.classList.add('tag-button');
-        tagButton.style.backgroundColor = state.selectedTags.includes(tag) ? "#4b6cb7" : "#f0f4fc";
-        tagButton.style.color = state.selectedTags.includes(tag) ? "white" : "#333";
+        tagButton.classList.add('tagButton');
+        tagButton.classList.toggle('selected', condition);
         tagButton.onclick = () => toggleTag(tag);
     
         // 削除ボタン
         const removeButton = document.createElement("button");
         removeButton.textContent = "❌";
-        removeButton.style.margin = "0.2em";
+        removeButton.classList.add('remove-button');
         removeButton.onclick = () => removeTag(tag);
     
         container.appendChild(tagButton);
