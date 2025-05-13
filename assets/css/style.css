@@ -144,6 +144,7 @@ button:hover {
 .tag-button {
     margin: 0 0.2em;
 }
+.tag-button.active {}
 .phrase-text {
     cursor: pointer;
 }
