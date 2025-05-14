@@ -134,7 +134,9 @@ button:hover {
     color: #fff;
 }
 .tagButton-screen,
-.remove-button {
+.remove-button,
+.tagButton-screen:hover,
+.remove-button:hover {
     color: #4b6cb7;
     background: none;
 }
