@@ -1,6 +1,6 @@
 import { openDB, loadAllPhrases } from './db.js';
 import { showScreen } from './ui.js';
-import { savePhrase, exportPhrases } from './phrases.js';
+import { savePhrase, exportPhrases, importPhrases } from './phrases.js';
 import { addTag } from './tags.js';
 
 // ページ読み込み時に初期化処理を実行
