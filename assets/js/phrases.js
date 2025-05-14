@@ -207,16 +207,21 @@ export function resetFormToNewEntry() {
 export async function exportPhrases() {
   const tx    = state.db.transaction('phrases', 'readonly');
   const store = tx.objectStore('phrases');
-  const all   = await store.getAll();        // すべて取得
+
+  // ★ Promise 化
+  const all = await new Promise((resolve, reject) => {
+    const req = store.getAll();
+    req.onsuccess = e => resolve(e.target.result);
+    req.onerror   = () => reject(req.error);
+  });
 
   const json  = JSON.stringify(all, null, 2);
   const blob  = new Blob([json], { type: 'application/json' });
   const url   = URL.createObjectURL(blob);
 
-  // 自動クリックでダウンロード
   const a = document.createElement('a');
-  a.href        = url;
-  a.download    = `phrases_${Date.now()}.json`;
+  a.href = url;
+  a.download = `phrases_${Date.now()}.json`;
   document.body.appendChild(a);
   a.click();
   a.remove();
