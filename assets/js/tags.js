@@ -122,7 +122,7 @@ export function renderTagList() {
   // 2) クリック処理 — イベント委任
   container.onclick = e => {
     const target = e.target;
-    if (target.matches('.tagButton')) {
+    if (target.matches('.tagButton-screen')) {
       toggleTag(target.dataset.tag);
     } else if (target.matches('.remove-button')) {
       removeTag(target.dataset.tag);
