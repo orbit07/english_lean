@@ -21,6 +21,12 @@
     <div class="nav-buttons">
         <button id="formButton">➕ 登録画面</button>
         <button id="listButton">📋 フレーズ一覧</button>
+        <button id="exportBtn">エクスポート</button>
+        <input id="importInput" type="file" accept=".json" hidden>
+        <button id="importBtn">インポート</button>
+<script>
+  document.getElementById('exportBtn').onclick = exportPhrases;
+</script>
     </div>
 
     <!-- 登録画面 -->

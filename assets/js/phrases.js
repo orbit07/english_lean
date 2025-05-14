@@ -202,3 +202,53 @@ export function resetFormToNewEntry() {
     state.selectedTags = [];
     updateTagButtons();
 }
+
+// インポート・エクスポート
+export async function exportPhrases() {
+  const tx    = state.db.transaction('phrases', 'readonly');
+  const store = tx.objectStore('phrases');
+  const all   = await store.getAll();        // すべて取得
+
+  const json  = JSON.stringify(all, null, 2);
+  const blob  = new Blob([json], { type: 'application/json' });
+  const url   = URL.createObjectURL(blob);
+
+  // 自動クリックでダウンロード
+  const a = document.createElement('a');
+  a.href        = url;
+  a.download    = `phrases_${Date.now()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById('importBtn').onclick = () =>
+  document.getElementById('importInput').click();
+
+document.getElementById('importInput').onchange = async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  // 読み込み
+  const text = await file.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+    if (!Array.isArray(data)) throw new Error();
+  } catch {
+    alert('ファイル形式が不正です');
+    return;
+  }
+
+  // IndexedDB へ書き込み
+  const tx    = state.db.transaction('phrases', 'readwrite');
+  const store = tx.objectStore('phrases');
+  for (const p of data) store.put(p);
+
+  tx.oncomplete = () => {
+    loadAllPhrases();
+    alert('インポートが完了しました');
+  };
+  tx.onerror = () => alert('インポートに失敗しました');
+};
