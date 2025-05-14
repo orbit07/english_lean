@@ -26,16 +26,67 @@ export function toggleTag(tag) {
     renderTagList();
 }
 
-// タグを削除する関数
-export function removeTag(tag) {
+// 1) 件数を数える
+function countPhrasesWithTag(tag) {
+  return new Promise(resolve => {
+    const tx    = state.db.transaction('phrases', 'readonly');
+    const store = tx.objectStore('phrases');
+    store.getAll().onsuccess = e => {
+      const count = e.target.result.filter(p => (p.tags ?? []).includes(tag)).length;
+      resolve(count);
+    };
+  });
+}
+
+// 2) 全フレーズからタグを外す
+function deleteTagGlobally(tag) {
+  return new Promise((resolve, reject) => {
+    const tx    = state.db.transaction('phrases', 'readwrite');
+    const store = tx.objectStore('phrases');
+
+    store.getAll().onsuccess = e => {
+      e.target.result.forEach(p => {
+        if ((p.tags ?? []).includes(tag)) {
+          p.tags = p.tags.filter(t => t !== tag);
+          store.put(p);
+        }
+      });
+    };
+
+    tx.oncomplete = resolve;
+    tx.onerror    = () => reject(tx.error);
+  });
+}
+
+// 3) エントリーポイント
+export async function removeTag(tag) {
+  const count = await countPhrasesWithTag(tag);
+
+  const ok = window.confirm(
+    `このタグを削除すると、関連する ${count} 件のフレーズからタグが削除されます。\n本当に削除しますか？`
+  );
+  if (!ok) return;
+
+  try {
+    await deleteTagGlobally(tag);
+
+    // タグリストから削除
     state.availableTags = state.availableTags.filter(t => t !== tag);
-    state.selectedTags = state.selectedTags.filter(t => t !== tag);
+
+    // ★ 追加: UI の一時状態もクリア
+    state.selectedTags   = state.selectedTags.filter(t => t !== tag);
     if (state.activeTagFilter === tag) {
-        state.activeTagFilter = null;
+    state.activeTagFilter = null;
     }
+
+    saveAvailableTags();
     renderTagList();
-    saveAvailableTags(); // タグ削除時に保存
     loadAllPhrases();
+
+  } catch (err) {
+    alert('削除に失敗しました。もう一度お試しください。');
+    console.error(err);
+  }
 }
 
 // -------------- タグフィルター --------------
