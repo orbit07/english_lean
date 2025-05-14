@@ -111,7 +111,7 @@ button:hover {
     border: 1px solid #4b6cb7;
     border-radius: 4px;
 }
-.tagButton-wrapper.selected {
+.tagButton-wrapper:has(.tagButton-screen).selected {
     background: #4b6cb7;
     color: #fff;
 }
