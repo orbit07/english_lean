@@ -14,10 +14,9 @@ window.onload = () => {
   document.getElementById('saveButton').addEventListener('click', () => savePhrase());
   document.getElementById('exportBtn').addEventListener('click', () => exportPhrases());
   document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importInput').click());
-  document.getElementById('importInput').addEventListener('change', () => importPhrases(e));
+  document.getElementById('importInput').addEventListener('change', e => importPhrases(e));
 
   const filterSelect = document.getElementById('filterSelect');
-  filterSelect.addEventListener('change', () => loadAllPhrases());
   if (filterSelect) {
     filterSelect.value = "all";
   }
