@@ -223,10 +223,7 @@ export async function exportPhrases() {
   URL.revokeObjectURL(url);
 }
 
-document.getElementById('importBtn').onclick = () =>
-  document.getElementById('importInput').click();
-
-document.getElementById('importInput').onchange = async e => {
+export async function importPhrases(e) {
   const file = e.target.files[0];
   if (!file) return;
 

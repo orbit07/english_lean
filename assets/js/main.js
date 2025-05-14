@@ -13,6 +13,8 @@ window.onload = () => {
   document.getElementById('addTagButton').addEventListener('click', () => addTag());
   document.getElementById('saveButton').addEventListener('click', () => savePhrase());
   document.getElementById('exportBtn').addEventListener('click', () => exportPhrases());
+  document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importInput').click());
+  document.getElementById('importInput').addEventListener('change', () => importPhrases(e));
 
   const filterSelect = document.getElementById('filterSelect');
   filterSelect.addEventListener('change', () => loadAllPhrases());
