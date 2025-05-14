@@ -140,6 +140,9 @@ button:hover {
     color: #4b6cb7;
     background: none;
 }
+.tagButton-screen.selected {
+    color: #fff;
+}
 
 /*- screen -*/
 .screen {
