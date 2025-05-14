@@ -113,10 +113,10 @@ export function renderTagList() {
   container.innerHTML = state.availableTags.map(tag => {
     const isSel = state.selectedTags.includes(tag) ? ' selected' : '';
     return `
-      <div class="tagButton-wrapper">
-        <button class="tagButton${isSel}" data-tag="${tag}">#${tag}</button>
+      <li class="tagButton-wrapper${isSel}">
+        <button class="tagButton-screen" data-tag="${tag}">#${tag}</button>
         <button class="remove-button" data-tag="${tag}">❌</button>
-      </div>`;
+      </li>`;
   }).join('');
 
   // 2) クリック処理 — イベント委任

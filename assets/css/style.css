@@ -101,9 +101,19 @@ button:hover {
     padding-bottom: 0.2em;
 }
 /* タグボタン共通 */
-.tagButton,
-.remove-button {
-    margin: 0 0.2em;
+.tagList {
+    display: flex;
+    gap: .2em;
+}
+.tagButton-wrapper {
+    display: flex;
+    border: 1px solid #4b6cb7;
+}
+.tagButton-wrapper.selected {
+    background: #4b6cb7;
+    color: #fff;
+}
+.tagButton {
     padding: 2px 6px;
     border: 1px solid #4b6cb7;
     background: #f0f4fc;
@@ -113,22 +123,16 @@ button:hover {
     cursor: pointer;
     transition: background 0.2s;
 }
-
 .tagButton {
     width: auto;
-    display: inline-block;;
+    display: inline-block;
 }
-  
-/* 選択中（タグを押した or フィルタ中） */
 .tagButton.active {
     background: #4b6cb7;
     color: #fff;
 }
 
-.tagButton.selected {
-    background: #4b6cb7;
-    color: #fff;
-}
+/*- screen -*/
 .screen {
     display: block;
 }
@@ -137,15 +141,6 @@ button:hover {
     display: none !important;
 }
 
-.tagList {
-    margin-bottom: 1em;
-}
-.tagList button {
-    width: auto;
-}
-.tag-group button {
-    width: auto;
-}
 .phrase-text {
     cursor: pointer;
 }
