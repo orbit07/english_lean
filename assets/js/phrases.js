@@ -104,6 +104,7 @@ export function renderPhraseList(phrases) {
         const div = document.createElement("div");
         div.className = "phrase-item";
         const tagGroup = document.createElement("div");
+        tagGroup.className = "tag-group";
         const minutes = Math.floor(p.time / 60);
         const seconds = p.time % 60;
         const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
