@@ -113,8 +113,8 @@ export function renderTagList() {
   container.innerHTML = state.availableTags.map(tag => {
     const isSel = state.selectedTags.includes(tag) ? ' selected' : '';
     return `
-      <li class="tagButton-wrapper${isSel}">
-        <button class="tagButton-screen" data-tag="${tag}">#${tag}</button>
+      <li class="tagButton-wrapper">
+        <button class="tagButton-screen${isSel}" data-tag="${tag}">#${tag}</button>
         <button class="remove-button" data-tag="${tag}">❌</button>
       </li>`;
   }).join('');
