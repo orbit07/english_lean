@@ -57,6 +57,9 @@ img {
     margin-top: 0.5em;
     justify-content: space-around;
 }
+.button-group button {
+    height: 40px;
+}
 .video-wrapper {
     position: relative;
     width: 100%;
@@ -188,5 +191,6 @@ img {
 /*- formButton listButton -*/
 .formButton,
 .listButton {
+    height: 40px;
     border: 2px solid #fff;
 }

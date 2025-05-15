@@ -159,7 +159,7 @@ export function renderPhraseList(phrases) {
         };
     
         const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "🗑️ Delete";
+        deleteBtn.innerHTML = '<img src="assets/img/bin.svg" alt="Delete">';
         deleteBtn.onclick = () => {
             const tx = state.db.transaction("phrases", "readwrite");
             tx.onerror = () => showToast('フレーズの削除に失敗しました', true);
