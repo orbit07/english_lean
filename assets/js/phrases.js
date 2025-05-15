@@ -133,6 +133,7 @@ export function renderPhraseList(phrases) {
             showScreen('list');
             showVideo(p.videoId);
             state.currentVideoId = p.videoId;
+            loadAllPhrases();
             const iframe = document.getElementById("youtubePlayer");
             if (iframe) {
                 iframe.src = `https://www.youtube.com/embed/${p.videoId}?start=${p.time}&autoplay=1`;

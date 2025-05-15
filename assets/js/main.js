@@ -19,5 +19,8 @@ window.onload = () => {
   const filterSelect = document.getElementById('filterSelect');
   if (filterSelect) {
     filterSelect.value = "all";
+    filterSelect.addEventListener('change', () => {
+      loadAllPhrases();  // DB から全件を読み直して applyFilter() を再実行
+    });
   }
 };
