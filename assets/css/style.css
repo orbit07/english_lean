@@ -85,7 +85,7 @@ img {
     position: sticky;
     top: 0;
     border-radius: 0px 0px 30px 30px;
-    background: linear-gradient(45deg, #C130A0, #3054C1);
+    background: linear-gradient(45deg, #233D8B, #8B237B);
     background-size: 400% 400%;
     animation: GradientBackground 10s ease infinite;
     z-index: 10;
@@ -167,6 +167,9 @@ img {
 .remove-button:hover {
     color: #fff;
     background: none;
+}
+.tagButton-screen.selected {
+    color: rgba(103, 126, 250, 1);
 }
 
 .addTagButton {
