@@ -42,6 +42,11 @@ button {
 button:hover {
     background: #3f5ca3;
 }
+img {
+    max-width: 100%;
+}
+
+/*- phrase -*/
 .phrase-item {
     padding: 1em;
     border-bottom: 1px solid #ccc;
@@ -176,4 +181,10 @@ button:hover {
 
 .phrase_text {
     cursor: pointer;
+}
+
+/*- exportBtn importBtn -*/
+.importBtn,
+.exportBtn {
+    width: 40px;
 }
