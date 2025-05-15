@@ -2,11 +2,10 @@ tml, body {
     height: 100%;
     margin: 0;
     font-family: 'M PLUS Rounded 1c', "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-    background: #eaf0fa;
+    background: linear-gradient(90deg, rgba(168, 202, 240, 1), rgba(233, 240, 250, 1));
     color: #333;
 }
 body {
-    max-width: 600px;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -77,7 +76,7 @@ button:hover {
 .fixedHeader {
     position: sticky;
     top: 0;
-    background-color: #eaf0fa;
+    background: linear-gradient(90deg, rgba(168, 202, 240, 1), rgba(233, 240, 250, 1));
     z-index: 10;
     padding: 1em 1em 0.5em;
 }
