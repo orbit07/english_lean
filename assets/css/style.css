@@ -38,7 +38,6 @@ button {
     color: white;
     cursor: pointer;
     transition: background 0.3s;
-    height: 40px;
 }
 button:hover {
     background: #3f5ca3;
@@ -88,8 +87,9 @@ img {
     flex-grow: 1;
 }
 .nav-buttons {
-    display: flex;
-    gap: 1em;
+    display: grid;
+    grid-template-columns: 40px 40px 1fr 1fr;
+    gap: .5em;
     justify-content: center;
 }
 .formList {
@@ -185,8 +185,8 @@ img {
     cursor: pointer;
 }
 
-/*- exportBtn importBtn -*/
-.importBtn,
-.exportBtn {
-    width: 40px;
+/*- formButton listButton -*/
+.formButton,
+.listButton {
+    border: 2px solid #fff;
 }
