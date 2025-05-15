@@ -24,7 +24,7 @@ input, button, textarea, select {
     box-sizing: border-box;
     border: none;
     border-radius: 12px;
-    padding: 0.3em;
+    padding: 0.5em;
     font-size: 1em;
     background: #fff;
     color: #333;
@@ -40,7 +40,7 @@ button {
     transition: background 0.3s;
 }
 button:hover {
-    background: #3f5ca3;
+    background: rgba(103, 126, 250, .3);
 }
 img {
     max-height: 100%;
@@ -79,7 +79,7 @@ img {
     position: sticky;
     top: 0;
     border-radius: 0px 0px 30px 30px;
-    background: linear-gradient(90deg, rgba(168, 202, 240, 1), rgba(233, 240, 250, 1));
+    background: linear-gradient(45deg, rgba(103, 126, 250, 1), rgba(142, 84, 219, 1));
     z-index: 10;
     padding: 1em;
 }
