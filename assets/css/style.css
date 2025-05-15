@@ -85,10 +85,25 @@ img {
     position: sticky;
     top: 0;
     border-radius: 0px 0px 30px 30px;
-    background: linear-gradient(45deg, rgba(103, 126, 250, 1), rgba(142, 84, 219, 1));
+    background: linear-gradient(45deg, #C130A0, #3054C1);
+    background-size: 400% 400%;
+    animation: GradientBackground 10s ease infinite;
     z-index: 10;
     padding: 1em;
 }
+@keyframes GradientBackground {
+    0% {
+    background-position: 0% 50%;
+    }
+
+    50% {
+    background-position: 100% 50%;
+    }
+
+    100% {
+    background-position: 0% 50%;
+    }
+};
 .phraseList {
     flex-grow: 1;
 }
