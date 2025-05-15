@@ -127,7 +127,7 @@ export function renderPhraseList(phrases) {
             });
         }
     
-        phraseText.textContent = `▶️ [${timeFormatted}] ${p.text}`;
+        phraseText.textContent = `[${timeFormatted}] ${p.text}`;
         phraseText.classList.add('phrase_text');
         phraseText.onclick = () => {
             showScreen('list');
