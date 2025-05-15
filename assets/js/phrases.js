@@ -170,7 +170,7 @@ export function renderPhraseList(phrases) {
         };
 
         const favoriteBtn = document.createElement("button");
-        favoriteBtn.textContent = p.favorite ? "⭐️" : "☆";
+        favoriteBtn.innerHTML = p.favorite ? '<img src="assets/img/bookmark_on.svg" alt="Favorite">' : '<img src="assets/img/bookmark_off.svg" alt="Favorite">';
         favoriteBtn.onclick = (e) => {
             e.stopPropagation();
             p.favorite = !p.favorite;
