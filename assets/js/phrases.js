@@ -143,21 +143,8 @@ export function renderPhraseList(phrases) {
         const buttonGroup = document.createElement("div");
         buttonGroup.className = "button-group";
     
-        const favoriteBtn = document.createElement("button");
-        favoriteBtn.textContent = p.favorite ? "⭐️" : "☆";
-        favoriteBtn.onclick = (e) => {
-            e.stopPropagation();
-            p.favorite = !p.favorite;
-            const tx = state.db.transaction("phrases", "readwrite");
-            tx.onerror = () => showToast('お気に入りの更新に失敗しました', true);
-            const store = tx.objectStore("phrases");
-            const req = store.put(p);
-            req.onerror = () => console.error('お気に入りの更新に失敗しました');
-            tx.oncomplete = () => loadAllPhrases();
-        };
-    
         const editBtn = document.createElement("button");
-        editBtn.textContent = "✏️ Edit";
+        editBtn.innerHTML = '<img src="../img/edit.svg" alt="Edit">';
         editBtn.onclick = () => {
             document.getElementById("startTime").value = `${Math.floor(p.time/60)}:${(p.time%60).toString().padStart(2,'0')}`;
             document.getElementById("phrase").value = p.text;
@@ -179,6 +166,19 @@ export function renderPhraseList(phrases) {
             const store = tx.objectStore("phrases");
             const req = store.delete(p.id);
             req.onerror = () => console.error('フレーズの削除に失敗しました');
+            tx.oncomplete = () => loadAllPhrases();
+        };
+
+        const favoriteBtn = document.createElement("button");
+        favoriteBtn.textContent = p.favorite ? "⭐️" : "☆";
+        favoriteBtn.onclick = (e) => {
+            e.stopPropagation();
+            p.favorite = !p.favorite;
+            const tx = state.db.transaction("phrases", "readwrite");
+            tx.onerror = () => showToast('お気に入りの更新に失敗しました', true);
+            const store = tx.objectStore("phrases");
+            const req = store.put(p);
+            req.onerror = () => console.error('お気に入りの更新に失敗しました');
             tx.oncomplete = () => loadAllPhrases();
         };
     
