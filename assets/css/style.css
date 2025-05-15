@@ -188,4 +188,5 @@ img {
 /*- exportBtn importBtn -*/
 .importBtn,
 .exportBtn {
+    width: 40px;
 }

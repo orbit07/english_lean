@@ -144,7 +144,7 @@ export function renderPhraseList(phrases) {
         buttonGroup.className = "button-group";
     
         const editBtn = document.createElement("button");
-        editBtn.innerHTML = '<img src="../img/edit.svg" alt="Edit">';
+        editBtn.innerHTML = '<img src="assets/img/edit.svg" alt="Edit">';
         editBtn.onclick = () => {
             document.getElementById("startTime").value = `${Math.floor(p.time/60)}:${(p.time%60).toString().padStart(2,'0')}`;
             document.getElementById("phrase").value = p.text;
