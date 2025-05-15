@@ -38,12 +38,13 @@ button {
     color: white;
     cursor: pointer;
     transition: background 0.3s;
+    height: 40px;
 }
 button:hover {
     background: #3f5ca3;
 }
 img {
-    max-width: 100%;
+    max-height: 100%;
 }
 
 /*- phrase -*/
@@ -187,5 +188,4 @@ img {
 /*- exportBtn importBtn -*/
 .importBtn,
 .exportBtn {
-    width: 40px;
 }
