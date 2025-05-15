@@ -34,7 +34,7 @@ input:focus, textarea:focus, select:focus {
     box-shadow: 0 0 0 2px #9dbdff;
 }
 button {
-    background: #4b6cb7;
+    background: none;
     color: white;
     cursor: pointer;
     transition: background 0.3s;
@@ -55,6 +55,7 @@ img {
     display: flex;
     gap: 0.5em;
     margin-top: 0.5em;
+    justify-content: space-around;
 }
 .video-wrapper {
     position: relative;
