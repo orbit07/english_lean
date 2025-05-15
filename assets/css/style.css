@@ -121,7 +121,7 @@ img {
 .tagButton-wrapper {
     color: #fff;
     display: flex;
-    border: 1px solid #fff
+    border: 1px solid #fff;
     border-radius: 4px;
 }
 .tagButton-wrapper:has(.tagButton-screen.selected) {
@@ -146,12 +146,19 @@ img {
     background: rgba(103, 126, 250, 1);
     color: #fff;
 }
-.tagButton-screen,
 .remove-button,
-.tagButton-screen:hover,
 .remove-button:hover {
     color: #4b6cb7;
     background: none;
+}
+.tagButton-screen {
+    color: #fff;
+    border: 2px solid #fff;
+    background: none;
+}
+.tagButton-screen:hover {
+    color: rgba(103, 126, 250, 1);
+    background: fff;
 }
 .tagButton-screen.selected {
     color: #fff;
