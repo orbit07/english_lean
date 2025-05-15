@@ -2,7 +2,6 @@ tml, body {
     height: 100%;
     margin: 0;
     font-family: 'M PLUS Rounded 1c', "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-    background: linear-gradient(90deg, rgba(168, 202, 240, 1), rgba(233, 240, 250, 1));
     color: #333;
 }
 body {
@@ -44,11 +43,8 @@ button:hover {
     background: #3f5ca3;
 }
 .phrase-item {
-    margin: 0.5em 0;
-    padding: .6em;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 1em;
+    border-bottom: 1px solid #ccc;
 }
 .button-group {
     display: flex;
@@ -76,13 +72,13 @@ button:hover {
 .fixedHeader {
     position: sticky;
     top: 0;
+    border-radius: 0px 0px 30px 30px;
     background: linear-gradient(90deg, rgba(168, 202, 240, 1), rgba(233, 240, 250, 1));
     z-index: 10;
-    padding: 1em 1em 0.5em;
+    padding: 1em;
 }
 .phraseList {
     flex-grow: 1;
-    padding: 0 1em 1em;
 }
 .nav-buttons {
     display: flex;
