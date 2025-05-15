@@ -85,7 +85,7 @@ img {
     position: sticky;
     top: 0;
     border-radius: 0px 0px 30px 30px;
-    background: linear-gradient(45deg, #233D8B, #8B237B);
+    background: linear-gradient(45deg, #B656A7, #5671B6);
     background-size: 400% 400%;
     animation: GradientBackground 10s ease infinite;
     z-index: 10;
