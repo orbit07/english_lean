@@ -115,7 +115,7 @@ export function renderTagList() {
     return `
       <li class="tagButton-wrapper">
         <button class="tagButton-screen${isSel}" data-tag="${tag}">#${tag}</button>
-        <button class="remove-button" data-tag="${tag}">❌</button>
+        <button class="remove-button" data-tag="${tag}"><img src="assets/img/delete.svg" alt="Delete"></button>
       </li>`;
   }).join('');
 
