@@ -4,7 +4,7 @@
     "start_url": "/english_lean/index.html",
     "scope": "/english_lean/",
     "display": "standalone",
-    "background_color": "#fff",
+    "background_color": "#fcfcfc",
     "theme_color": "#3c735c",
     "icons": [
         {

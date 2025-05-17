@@ -26,7 +26,7 @@ button {
     border: #3c735c;
     border-radius: 20px;
     font-size: 1em;
-    color: #fff;
+    color: #fcfcfc;
     background: #3c735c;
     padding: 0;
     margin: 0;
@@ -37,7 +37,7 @@ input, textarea, select {
     border: none;
     border-radius: 10px;
     font-size: 1em;
-    background: #efefef;
+    background: #e5e5e5;
     color: #021c0f;
 }
 input, textarea, select {
@@ -94,7 +94,7 @@ img {
     position: sticky;
     top: 0;
     border-radius: 0px 0px 30px 30px;
-    background: #fff;
+    background: #fcfcfc;
     z-index: 10;
     padding: 1em;
     box-shadow: 0 0 10px rgba(214, 208, 206, .8);
@@ -143,7 +143,7 @@ img {
     gap: .3em;
 }
 .tagButton-wrapper:has(.tagButton-screen.selected) {
-    color: #fff;
+    color: #fcfcfc;
     background: #3c735c;
 }
 .tagButton {
@@ -162,7 +162,7 @@ img {
 }
 .tagButton.active {
     background: #3c735c;
-    color: #fff;
+    color: #fcfcfc;
 }
 .tagButton-screen,
 .remove-button {
@@ -180,11 +180,11 @@ img {
 
 .addTagButton {
     background: #021c0f;
-    border: 2px solid #fff;
+    border: 2px solid #fcfcfc;
 }
 .saveButton {
     padding: .5em;
-    border: 2px solid #fff;
+    border: 2px solid #fcfcfc;
 }
 
 /*- screen -*/
@@ -207,7 +207,7 @@ img {
     left: 50%;
     transform: translateX(-50%) translateY(100%);
     background: #021c0f;
-    color:#fff;
+    color:#fcfcfc;
     padding:8px 16px;
     border-radius:8px;
     opacity:0;
@@ -233,7 +233,11 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #efefef;
+    background: #e5e5e5;
+}
+.formButton.active,
+.listButton.active {
+    background: #3c735c;
 }
 .formButton img,
 .listButton img {
@@ -252,15 +256,16 @@ img {
     height: auto;
 }
 .filterSelect {
-    background: #efefef;
+    background: #e5e5e5;
 }
 
 .screenButton {
-    background: #efefef;
+    background: #e5e5e5;
     display: grid;
     grid-template-columns: 1fr 1fr;
     border-radius: 20px;
-    padding: .2em;
+    padding: .3em;
+    gap: .3em;
 }
 .tagContents {
     display: grid;
