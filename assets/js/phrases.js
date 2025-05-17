@@ -154,7 +154,7 @@ export function renderPhraseList(phrases) {
             state.editingId = p.id;
             state.selectedTags = [...(p.tags || [])];
             updateTagButtons();
-            document.getElementById("saveButton").textContent = "Update Phrase";
+            document.getElementById("saveButton").innerHTML = '<img src="assets/img/save.svg" alt>Update Phrase';
             showScreen('form');
         };
     
@@ -198,7 +198,7 @@ export function resetFormToNewEntry() {
     document.getElementById("startTime").value = "";
     document.getElementById("phrase").value = "";
     document.getElementById("youtubeUrl").value = "";
-    document.getElementById("saveButton").textContent = "Save Phrase";
+    document.getElementById("saveButton").innerHTML = '<img src="assets/img/save.svg" alt>Save Phrase';
     state.editingId = null;
     state.selectedTags = [];
     updateTagButtons();
