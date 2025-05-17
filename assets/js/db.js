@@ -1,3 +1,4 @@
+// db.js — IndexedDB 操作用モジュール
 // 必要な関数や変数をインポート
 import { state } from './state.js';
 import { renderTagList } from './tags.js';
@@ -75,6 +76,9 @@ export function loadAllPhrases() {
 
 // フレーズを削除する関数
 export function deletePhrase(id) {
+    // 削除確認ダイアログを表示
+    if (!window.confirm('このフレーズを本当に削除しますか？')) return;
+
     const tx = state.db.transaction("phrases", "readwrite");
     tx.onerror = () => showToast('フレーズの削除に失敗しました', true);
     const store = tx.objectStore("phrases");
