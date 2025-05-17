@@ -28,29 +28,6 @@
         </div>
     </nav>
 
-    <!-- 動画表示エリア -->
-    <div id="videoScreen" class="screen">
-        <div class="video-wrapper" id="videoContainer"></div>
-        <form role="search" class="filter-wrapper">
-            <label for="filterSelect" class="visually-hidden">Filter phrases</label>
-            <select id="filterSelect" class="filterSelect">
-                <option value="all">All Phrases</option>
-                <option value="current">This Video Only</option>
-                <option value="favorite">Favorites Only</option>
-            </select>
-            <label for="searchInput" class="visually-hidden">Search phrases</label>
-            <input type="text" id="searchInput" placeholder="Search…" />
-        </form>
-    </div>
-
-</header>
-
-<!-- 一覧画面 -->
-<main class="main">
-
-    <section id="listScreen" class="screen">
-        <div id="phraseList" class="phraseList"></div>
-    </section>
 
     <!-- 登録画面 -->
     <section id="formScreen" class="screen fixedForm hidden" aria-labelledby="formTitle">
@@ -79,6 +56,30 @@
             </fieldset>
             <button id="saveButton" class="saveButton" type="submit"><img src="assets/img/save.svg" alt="">Save Phrase</button>
         </form>
+    </section>
+
+    <!-- 動画表示エリア -->
+    <div id="videoScreen" class="screen">
+        <div class="video-wrapper" id="videoContainer"></div>
+        <form role="search" class="filter-wrapper">
+            <label for="filterSelect" class="visually-hidden">Filter phrases</label>
+            <select id="filterSelect" class="filterSelect">
+                <option value="all">All Phrases</option>
+                <option value="current">This Video Only</option>
+                <option value="favorite">Favorites Only</option>
+            </select>
+            <label for="searchInput" class="visually-hidden">Search phrases</label>
+            <input type="text" id="searchInput" placeholder="Search…" />
+        </form>
+    </div>
+
+</header>
+
+<!-- 一覧画面 -->
+<main class="main">
+
+    <section id="listScreen" class="screen">
+        <div id="phraseList" class="phraseList"></div>
     </section>
 
 </main>
