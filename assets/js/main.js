@@ -17,10 +17,19 @@ window.onload = () => {
   document.getElementById('importInput').addEventListener('change', e => importPhrases(e));
 
   const filterSelect = document.getElementById('filterSelect');
+  
   if (filterSelect) {
     filterSelect.value = "all";
     filterSelect.addEventListener('change', () => {
       loadAllPhrases();  // DB から全件を読み直して applyFilter() を再実行
     });
   }
+
+  if (searchInput) {
+    // 入力のたびに一覧を再描画
+    searchInput.addEventListener('input', () => {
+      loadAllPhrases();
+    });
+  }
+
 };

@@ -61,11 +61,14 @@
     <!-- 動画表示エリア -->
     <div id="videoScreen" class="screen">
         <div class="video-wrapper" id="videoContainer"></div>
-        <select id="filterSelect" class="filterSelect">
-            <option value="all">All Phrases</option>
-            <option value="current">This Video Only</option>
-            <option value="favorite">Favorites Only</option>
-        </select>
+        <div class="filter-wrapper">
+            <select id="filterSelect" class="filterSelect">
+                <option value="all">All Phrases</option>
+                <option value="current">This Video Only</option>
+                <option value="favorite">Favorites Only</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Search…" />
+        </div>
     </div>
 
 </div>

@@ -78,6 +78,10 @@ export function savePhrase() {
 export function applyFilter(allPhrases) {
     const filterSelectElement = document.getElementById("filterSelect");
     const filter = filterSelectElement ? filterSelectElement.value : "all";
+
+    // ★ 検索ワード取得 ★
+    const searchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
+
     let filtered;
   
     // 選択されているフィルター条件に応じてフレーズを絞り込む
@@ -92,6 +96,17 @@ export function applyFilter(allPhrases) {
     // タグフィルターが設定されていれば、さらにタグで絞り込む
     if (state.activeTagFilter) {
         filtered = filtered.filter(p => p.tags && p.tags.includes(state.activeTagFilter));
+    }
+
+    // ★ 検索フィルター（大文字小文字を無視） ★
+    if (searchTerm) {
+        filtered = filtered.filter(p =>
+            p.text.toLowerCase().includes(searchTerm) ||
+            // 時間コードも検索対象にしたいなら以下も加える
+            // (`${Math.floor(p.time/60)}:${(p.time%60).toString().padStart(2,'0')}`)
+            //   .includes(searchTerm)
+            false
+        );
     }
   
     renderPhraseList(filtered);
