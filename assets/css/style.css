@@ -26,8 +26,8 @@ button {
     border: #3c735c;
     border-radius: 20px;
     font-size: 1em;
-    background: #fff;
-    color: #021c0f;
+    color: #fff;
+    background: #3c735c;
 }
 input, textarea, select {
     width: 100%;
@@ -44,12 +44,6 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
     outline: none;
     box-shadow: 0 0 0 2px #9dbdff;
-}
-button {
-    background: none;
-    color: white;
-    cursor: pointer;
-    transition: background 0.3s;
 }
 img {
     max-height: 100%;
