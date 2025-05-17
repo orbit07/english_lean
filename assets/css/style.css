@@ -9,6 +9,7 @@ body {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    background: #ebe3e0;
 }
 ul, li {
     padding: 0;
@@ -22,7 +23,7 @@ h2, h3 {
 button {
     width: 100%;
     box-sizing: border-box;
-    border: none;
+    border: #3c735c;
     border-radius: 20px;
     font-size: 1em;
     background: #fff;
@@ -106,7 +107,7 @@ img {
 }
 .nav-buttons {
     display: grid;
-    grid-template-columns: 40px 40px 1fr 1fr;
+    grid-template-columns: 40px 40px 1fr;
     gap: .5em;
     justify-content: center;
 }
@@ -247,4 +248,13 @@ img {
 
 .screenButton {
     background: #efefef;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 20px;
+}
+.tagContents {
+    display: grid;
+    gap: 0.5em;
+    margin-bottom: 0.5em;
+    grid-template-columns: 2fr 1fr;
 }
