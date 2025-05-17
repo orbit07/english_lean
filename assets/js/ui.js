@@ -54,6 +54,7 @@ export function showScreen(screen) {
     // ▼ 一覧からフォームへ遷移する直前にスクロール位置を記録
     if (screen === 'form' && listEl) {
         state.lastListScroll = listEl.scrollTop;
+        console.log('lastListScroll' + state.lastListScroll);
     }
 
     document.getElementById('formScreen').classList.toggle('hidden', screen !== 'form');
@@ -63,6 +64,7 @@ export function showScreen(screen) {
     // ▼ 一覧を再表示した直後に、記録したスクロール位置をセット
     if (screen === 'list' && listEl) {
         listEl.scrollTop = state.lastListScroll;
+        console.log('scrollTop' + listEl.scrollTop);
     }
 
     // ナビゲーションボタンの active 状態切り替え
