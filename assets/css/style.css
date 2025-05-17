@@ -121,14 +121,14 @@ img {
 .formList-contents label {
     color: #021c0f;
     display: inline-block;
-    padding-bottom: 0.2em;
+    padding-bottom: 0.3em;
 }
 /* タグボタン共通 */
 .tag-group,
 .tagList {
     display: flex;
     flex-wrap: wrap;
-    gap: .2em;
+    gap: .3em;
 }
 .tag-group {
     margin-top: .5em;
@@ -232,7 +232,7 @@ img {
 /*- formButton listButton -*/
 .formButton,
 .listButton {
-    padding: .2em;
+    padding: .3em;
     display: flex;
     align-items: center;
     justify-content: center;
