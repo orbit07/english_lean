@@ -1,8 +1,8 @@
 // 必要な関数や変数をインポート
 import { state } from './state.js';
 import { showScreen, showVideo, parseTimeToSeconds, extractVideoId } from './ui.js';
-import { renderTagList, toggleTagFilterFromList, updateTagButtons } from './tags.js';
-import { loadAllPhrases } from './db.js';
+import { toggleTagFilterFromList, updateTagButtons } from './tags.js';
+import { loadAllPhrases, deletePhrase } from './db.js';
 import { showToast } from './toast.js';
 
 // フレーズを保存する関数
@@ -160,14 +160,8 @@ export function renderPhraseList(phrases) {
     
         const deleteBtn = document.createElement("button");
         deleteBtn.innerHTML = '<img src="assets/img/bin.svg" alt="Delete">';
-        deleteBtn.onclick = () => {
-            const tx = state.db.transaction("phrases", "readwrite");
-            tx.onerror = () => showToast('フレーズの削除に失敗しました', true);
-            const store = tx.objectStore("phrases");
-            const req = store.delete(p.id);
-            req.onerror = () => console.error('フレーズの削除に失敗しました');
-            tx.oncomplete = () => loadAllPhrases();
-        };
+        deleteBtn.onclick = () => deletePhrase(p.id);
+        buttonGroup.appendChild(deleteBtn);
 
         const favoriteBtn = document.createElement("button");
         favoriteBtn.innerHTML = p.favorite ? '<img src="assets/img/bookmark_on.svg" alt="Favorite">' : '<img src="assets/img/bookmark_off.svg" alt="Favorite">';
