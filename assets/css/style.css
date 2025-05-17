@@ -301,3 +301,8 @@ img {
 .button-group button {
     background: none;
 }
+.filter-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .5em;
+}
