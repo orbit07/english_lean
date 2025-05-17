@@ -252,3 +252,8 @@ img {
     margin-bottom: 0.5em;
     grid-template-columns: 2fr 1fr;
 }
+.exportBtn,
+.importBtn,
+.button-group button {
+    background: none;
+}
