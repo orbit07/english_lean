@@ -54,8 +54,21 @@ export function showScreen(screen) {
     document.getElementById('videoScreen').classList.toggle('hidden', screen !== 'list');
 
     // ナビゲーションボタンの active 状態切り替え
-    document.getElementById('listButton').classList.toggle('active', screen === 'list');
-    document.getElementById('formButton').classList.toggle('active', screen === 'form');
+    const listEl = document.getElementById('phraseList');
+
+    // ▼ 一覧からフォームへ遷移する直前にスクロール位置を記録
+    if (screen === 'form' && listEl) {
+        state.lastListScroll = listEl.scrollTop;
+    }
+
+    document.getElementById('formScreen').classList.toggle('hidden', screen !== 'form');
+    document.getElementById('listScreen').classList.toggle('hidden', screen !== 'list');
+    document.getElementById('videoScreen').classList.toggle('hidden', screen !== 'list');
+
+    // ▼ 一覧を再表示した直後に、記録したスクロール位置をセット
+    if (screen === 'list' && listEl) {
+        listEl.scrollTop = state.lastListScroll;
+    }
 
     if (screen === 'form') {
         updateTagButtons();
