@@ -4,8 +4,8 @@
     "start_url": "/english_lean/index.html",
     "scope": "/english_lean/",
     "display": "standalone",
-    "background_color": "#3c735c",
-    "theme_color": "#021c0f",
+    "background_color": "#fff",
+    "theme_color": "#3c735c",
     "icons": [
         {
             "src": "icons/icon-192.png",
