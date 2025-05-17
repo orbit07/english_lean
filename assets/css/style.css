@@ -112,11 +112,11 @@ img {
     gap: 1em;
     margin: 1em 0;
 }
-.formList li {
+.formList-contents {
     display: flex;
     flex-direction: column;
 }
-.formList li label {
+.formList-contents label {
     color: #021c0f;
     display: inline-block;
     padding-bottom: 0.2em;
