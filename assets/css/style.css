@@ -19,17 +19,26 @@ h2, h3 {
     text-align: center;
     color: #4b6cb7;
 }
-input, button, textarea, select {
+input, button {
     width: 100%;
     box-sizing: border-box;
     border: none;
-    border-radius: 12px;
+    border-radius: 20px;
+    font-size: 1em;
+    background: #fff;
+    color: #333;
+}
+textarea, select {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 10px;
     font-size: 1em;
     background: #fff;
     color: #333;
 }
 input, textarea, select {
-    padding: .5em;
+    padding: .3em;
 }
 input:focus, textarea:focus, select:focus {
     outline: none;
@@ -40,9 +49,6 @@ button {
     color: white;
     cursor: pointer;
     transition: background 0.3s;
-}
-button:hover {
-    background: rgba(103, 126, 250, .3);
 }
 img {
     max-height: 100%;
@@ -61,6 +67,12 @@ img {
 }
 .button-group button {
     height: 25px;
+    width: fit-content;
+    display: inherit;
+}
+.button-group button img {
+    width: 18px;
+    height: auto;
 }
 .video-wrapper {
     position: relative;
@@ -71,7 +83,7 @@ img {
     border-radius: 16px;
     background: #000;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    margin: .5em 0 1em;
+    margin: .5em 0;
 }
 .video-wrapper iframe {
     position: absolute;
@@ -85,25 +97,10 @@ img {
     position: sticky;
     top: 0;
     border-radius: 0px 0px 30px 30px;
-    background: linear-gradient(45deg, #B656A7, #5671B6);
-    background-size: 400% 400%;
-    animation: GradientBackground 10s ease infinite;
+    background: #3c735c;
     z-index: 10;
     padding: 1em;
 }
-@keyframes GradientBackground {
-    0% {
-    background-position: 0% 50%;
-    }
-
-    50% {
-    background-position: 100% 50%;
-    }
-
-    100% {
-    background-position: 0% 50%;
-    }
-};
 .phraseList {
     flex-grow: 1;
 }
@@ -164,9 +161,7 @@ img {
     color: #fff;
 }
 .tagButton-screen,
-.remove-button,
-.tagButton-screen:hover,
-.remove-button:hover {
+.remove-button {
     color: #fff;
     background: none;
 }
@@ -224,7 +219,25 @@ img {
 /*- formButton listButton -*/
 .formButton,
 .listButton {
-    height: 40px;
-    padding: .5em;
+    padding: .2em;
     border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.formButton img,
+.listButton img {
+    width: 15px;
+    height: auto;
+}
+.exportBtn,
+.importBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.exportBtn img,
+.importBtn img {
+    width: 20px;
+    height: auto;
 }
