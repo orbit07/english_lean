@@ -50,12 +50,7 @@ export function parseTimeToSeconds(timeStr) {
 // 画面を切り替える関数
 export function showScreen(screen) {
     document.getElementById('formScreen').classList.toggle('hidden', screen !== 'form');
-    document.getElementById('listScreen').classList.toggle('hidden', screen !== 'list');
-    document.getElementById('videoScreen').classList.toggle('hidden', screen !== 'list');
-
-    // ナビゲーションボタンの active 状態切り替え
-    const listEl = document.getElementById('phraseList');
-
+    
     // ▼ 一覧からフォームへ遷移する直前にスクロール位置を記録
     if (screen === 'form' && listEl) {
         state.lastListScroll = listEl.scrollTop;
@@ -69,6 +64,10 @@ export function showScreen(screen) {
     if (screen === 'list' && listEl) {
         listEl.scrollTop = state.lastListScroll;
     }
+
+    // ナビゲーションボタンの active 状態切り替え
+    document.getElementById('listButton').classList.toggle('active', screen === 'list');
+    document.getElementById('formButton').classList.toggle('active', screen === 'form');
 
     if (screen === 'form') {
         updateTagButtons();
