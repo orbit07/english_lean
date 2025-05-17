@@ -171,8 +171,8 @@ img {
     justify-content: center;
     align-items: center;
 }
-.tagButton-screen button,
-.remove-button button {
+.tagButton-screen.selected,
+.remove-button.selected {
     color: #fff;
 }
 .tagButton-screen img,
