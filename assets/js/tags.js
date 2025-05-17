@@ -114,7 +114,7 @@ export function renderTagList() {
     const isSel = state.selectedTags.includes(tag) ? ' selected' : '';
     return `
       <li class="tagButton-wrapper">
-        <button class="tagButton tagButton-screen${isSel}" data-tag="${tag}">#${tag}</button>
+        <button class="tagButton-screen${isSel}" data-tag="${tag}">#${tag}</button>
         <button class="remove-button" data-tag="${tag}"><img src="assets/img/delete.svg" alt="Delete"></button>
       </li>`;
   }).join('');

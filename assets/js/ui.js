@@ -1,6 +1,7 @@
 // 必要な関数や変数をインポート
 import { state } from './state.js';
 import { resetFormToNewEntry } from './phrases.js';
+import { updateTagButtons } from './tags.js';
 
 // YouTubeのURLから動画IDを抽出する関数
 export function extractVideoId(text = '') {
@@ -51,6 +52,11 @@ export function showScreen(screen) {
     document.getElementById('formScreen').classList.toggle('hidden', screen !== 'form');
     document.getElementById('listScreen').classList.toggle('hidden', screen !== 'list');
     document.getElementById('videoScreen').classList.toggle('hidden', screen !== 'list');
+
+    if (screen === 'form') {
+        updateTagButtons();
+    }
+
     if (screen === 'list') {
         state.editingId = null; // 一覧画面に戻ったときに編集状態をリセット
     }
