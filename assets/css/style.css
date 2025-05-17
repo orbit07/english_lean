@@ -37,7 +37,7 @@ input, textarea, select {
     border: none;
     border-radius: 10px;
     font-size: 1em;
-    background: #e5e5e5;
+    background: #e0e0e0;
     color: #021c0f;
     padding: .3em .5em;
 }
@@ -187,11 +187,25 @@ img {
     background: #021c0f;
     border: 2px solid #fcfcfc;
     padding: .2em;
+    display: flex;
+    align-items: center;
+    gap: .3em;
+}
+.addTagButton img {
+    width: 15px;
+    height: auto;
 }
 .saveButton {
     font-weight: 600;
     padding: .5em;
     border: 2px solid #fcfcfc;
+    display: flex;
+    align-items: center;
+    gap: .3em;
+}
+.saveButton  img {
+    width: 15px;
+    height: auto;
 }
 
 /*- screen -*/
@@ -242,7 +256,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #e5e5e5;
+    background: #e0e0e0;
 }
 .formButton.active,
 .listButton.active {
@@ -266,7 +280,7 @@ img {
 }
 
 .screenButton {
-    background: #e5e5e5;
+    background: #e0e0e0;
     display: grid;
     grid-template-columns: 1fr 1fr;
     border-radius: 20px;
