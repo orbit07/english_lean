@@ -318,6 +318,8 @@ img {
   white-space: nowrap;
   border: 0;
 }
-.main {
-    padding-top: 60px;
+fieldset {
+    padding: 0;
+    margin: 0;
+    border: none;
 }
