@@ -88,8 +88,7 @@ img {
     height: 100%;
     border: none;
 }
-.fixedHeader,
-.fixedForm {
+.fixedHeader {
     position: sticky;
     top: 0;
     border-radius: 0px 0px 30px 30px;
