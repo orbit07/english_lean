@@ -22,8 +22,10 @@
         <button id="exportBtn" class="exportBtn"><img src="assets/img/export.svg" alt="Export"></button>
         <input id="importInput" type="file" accept=".json" hidden>
         <button id="importBtn" class="importBtn"><img src="assets/img/import.svg" alt="Import"></button>
-        <button id="formButton" class="formButton"><img src="assets/img/edit.svg" alt="Edit"></button>
-        <button id="listButton" class="listButton"><img src="assets/img/list.svg" alt="List"></button>
+        <div class="screenButton">
+            <button id="formButton" class="formButton"><img src="assets/img/edit.svg" alt="Edit"></button>
+            <button id="listButton" class="listButton"><img src="assets/img/list.svg" alt="List"></button>
+        </div>
     </div>
 
     <!-- 登録画面 -->
@@ -59,7 +61,7 @@
     <!-- 動画表示エリア -->
     <div id="videoScreen" class="screen">
         <div class="video-wrapper" id="videoContainer"></div>
-        <select id="filterSelect">
+        <select id="filterSelect" class="filterSelect">
             <option value="all">すべてのフレーズ</option>
             <option value="current">この動画のみ</option>
             <option value="favorite">お気に入りのみ</option>

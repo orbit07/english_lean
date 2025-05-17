@@ -1,8 +1,8 @@
-tml, body {
+html, body {
     height: 100%;
     margin: 0;
     font-family: 'M PLUS Rounded 1c', "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-    color: #333;
+    color: #021c0f;
 }
 body {
     margin: auto;
@@ -19,23 +19,23 @@ h2, h3 {
     text-align: center;
     color: #4b6cb7;
 }
-input, button {
+button {
     width: 100%;
     box-sizing: border-box;
     border: none;
     border-radius: 20px;
     font-size: 1em;
     background: #fff;
-    color: #333;
+    color: #021c0f;
 }
-textarea, select {
+input, textarea, select {
     width: 100%;
     box-sizing: border-box;
     border: none;
     border-radius: 10px;
     font-size: 1em;
-    background: #fff;
-    color: #333;
+    background: #efefef;
+    color: #021c0f;
 }
 input, textarea, select {
     padding: .3em;
@@ -97,7 +97,7 @@ img {
     position: sticky;
     top: 0;
     border-radius: 0px 0px 30px 30px;
-    background: #3c735c;
+    background: #fff;
     z-index: 10;
     padding: 1em;
 }
@@ -117,7 +117,7 @@ img {
     margin: 1em 0;
 }
 .formList li label {
-    color: #fff;
+    color: #021c0f;
     display: inline-block;
     padding-bottom: 0.2em;
 }
@@ -146,7 +146,7 @@ img {
     padding: 2px 6px;
     border: 1px solid rgba(103, 126, 250, 1);
     background: #f0f4fc;
-    color: #333;
+    color: #021c0f;
     border-radius: 4px;
     font-size: 0.9rem;
     cursor: pointer;
@@ -196,7 +196,7 @@ img {
     bottom: 32px;
     left: 50%;
     transform: translateX(-50%) translateY(100%);
-    background: #333;
+    background: #021c0f;
     color:#fff;
     padding:8px 16px;
     border-radius:8px;
@@ -220,10 +220,10 @@ img {
 .formButton,
 .listButton {
     padding: .2em;
-    border: 2px solid #fff;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: #efefef;
 }
 .formButton img,
 .listButton img {
@@ -240,4 +240,11 @@ img {
 .importBtn img {
     width: 20px;
     height: auto;
+}
+.filterSelect {
+    background: #efefef;
+}
+
+.screenButton {
+    background: #efefef;
 }
