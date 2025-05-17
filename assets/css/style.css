@@ -39,9 +39,7 @@ input, textarea, select {
     font-size: 1em;
     background: #e5e5e5;
     color: #021c0f;
-}
-input, textarea, select {
-    padding: .3em;
+    padding: .3em .5em;
 }
 input:focus, textarea:focus, select:focus {
     outline: none;
@@ -137,7 +135,7 @@ img {
     display: grid;
     grid-template-columns: auto 1fr;
     border: 1px #9abda5 dashed;
-    border-radius: 420px;
+    border-radius: 40px;
     padding: 0 .3em;
     gap: .3em;
 }
@@ -147,20 +145,16 @@ img {
     background: #9abda5;
 }
 .tagButton {
-    padding: 2px 6px;
-    border: 1px solid #3c735c;
-    background: #f0f4fc;
-    color: #021c0f;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    cursor: pointer;
-}
-.tagButton {
-    width: auto;
-    display: inline-block;
+    color: #9abda5;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    border: 1px #9abda5 dashed;
+    border-radius: 40px;
+    padding: 0 .3em;
+    gap: .3em;
 }
 .tagButton.active {
-    background: #3c735c;
+    background: #9abda5;
     color: #fcfcfc;
 }
 .tagButton-screen,
@@ -184,6 +178,7 @@ img {
 .addTagButton {
     background: #021c0f;
     border: 2px solid #fcfcfc;
+    padding: .2em;
 }
 .saveButton {
     padding: .5em;
@@ -275,6 +270,7 @@ img {
     gap: 0.5em;
     margin-bottom: 0.5em;
     grid-template-columns: 2fr 1fr;
+    align-items: center;
 }
 .exportBtn,
 .importBtn,
