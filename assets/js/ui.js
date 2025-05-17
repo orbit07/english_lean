@@ -49,8 +49,8 @@ export function parseTimeToSeconds(timeStr) {
 
 // 画面を切り替える関数
 export function showScreen(screen) {
-    document.getElementById('formScreen').classList.toggle('hidden', screen !== 'form');
-    
+    const listEl = document.getElementById('phraseList');
+
     // ▼ 一覧からフォームへ遷移する直前にスクロール位置を記録
     if (screen === 'form' && listEl) {
         state.lastListScroll = listEl.scrollTop;
