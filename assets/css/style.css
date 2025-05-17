@@ -189,6 +189,7 @@ img {
     padding: .2em;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: .3em;
 }
 .addTagButton img {
