@@ -15,68 +15,73 @@
 </head>
 <body>
 
-<div class="fixedHeader">
+<header class="fixedHeader">
 
     <!-- 画面切り替えボタン -->
-    <div class="nav-buttons">
-        <button id="exportBtn" class="exportBtn"><img src="assets/img/export.svg" alt="Export"></button>
+    <nav class="nav-buttons">
+        <button id="exportBtn" class="exportBtn" type="button" aria-label="Export phrases"><img src="assets/img/export.svg" alt=""></button>
         <input id="importInput" type="file" accept=".json" hidden>
-        <button id="importBtn" class="importBtn"><img src="assets/img/import.svg" alt="Import"></button>
+        <button id="importBtn" class="importBtn" type="button" aria-label="Import phrases"><img src="assets/img/import.svg" alt=""></button>
         <div class="screenButton">
-            <button id="formButton" class="formButton"><img src="assets/img/edit.svg" alt="Edit"></button>
-            <button id="listButton" class="listButton"><img src="assets/img/list.svg" alt="List"></button>
+            <button id="formButton" class="formButton" type="button" aria-label="Open form"><img src="assets/img/edit.svg" alt=""></button>
+            <button id="listButton" class="listButton" type="button" aria-label="Show list"><img src="assets/img/list.svg" alt=""></button>
         </div>
-    </div>
-
-    <!-- 登録画面 -->
-    <div id="formScreen" class="screen hidden">
-        <ul class="formList">
-            <li class="formList-contents">
-                <label class="formList-label"><img src="assets/img/url.svg" alt>YouTube URL:</label>
-                <input id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=xxxx" />
-            </li>
-            <li class="formList-contents">
-                <label class="formList-label"><img src="assets/img/time.svg" alt>Start Time:</label>
-                <input type="text" id="startTime" placeholder="e.g. 1:30" />
-            </li>
-            <li class="formList-contents">
-                <label class="formList-label"><img src="assets/img/phrase.svg" alt>Phrase:</label>
-                <textarea id="phrase" placeholder="Enter your phrase here..."></textarea>
-            </li>
-            <li class="formList-contents">
-                <!-- タグ入力 -->
-                <label class="formList-label"><img src="assets/img/tag.svg" alt>Tag:</label>
-                <div class="tagContents">
-                    <input id="tagInput" placeholder="Tag" />
-                    <button id="addTagButton" class="addTagButton"><img src="assets/img/add.svg" alt>Add</button>
-                </div>
-                <ul id="tagList" class="tagList"></ul>
-            </li>
-
-        </ul>
-
-        <button id="saveButton" class="saveButton"><img src="assets/img/save.svg" alt>Save Phrase</button>
-    </div>
+    </nav>
 
     <!-- 動画表示エリア -->
     <div id="videoScreen" class="screen">
         <div class="video-wrapper" id="videoContainer"></div>
-        <div class="filter-wrapper">
+        <form role="search" class="filter-wrapper">
+            <label for="filterSelect" class="visually-hidden">Filter phrases</label>
             <select id="filterSelect" class="filterSelect">
                 <option value="all">All Phrases</option>
                 <option value="current">This Video Only</option>
                 <option value="favorite">Favorites Only</option>
             </select>
+            <label for="searchInput" class="visually-hidden">Search phrases</label>
             <input type="text" id="searchInput" placeholder="Search…" />
-        </div>
+        </form>
     </div>
 
-</div>
+</header>
 
 <!-- 一覧画面 -->
-<div id="listScreen" class="screen">
-    <div id="phraseList" class="phraseList"></div>
-</div>
+<main class="main">
+
+    <section id="listScreen" class="screen">
+        <div id="phraseList" class="phraseList"></div>
+    </section>
+
+    <!-- 登録画面 -->
+    <section id="formScreen" class="screen fixedForm hidden" aria-labelledby="formTitle">
+        <h2 id="formTitle" class="visually-hidden">New or Edit Phrase</h2>
+        <form class="formList">
+            <fieldset class="formList-contents">
+                <label for="youtubeUrl" class="formList-label"><img src="assets/img/url.svg" alt="">YouTube URL:</label>
+                <input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=xxxx" required />
+            </fieldset>
+            <fieldset class="formList-contents">
+                <label for="startTime" class="formList-label"><img src="assets/img/time.svg" alt="">Start Time:</label>
+                <input id="startTime" type="text" pattern="\d+:\d{1,2}" placeholder="e.g. 1:30" required />
+            </fieldset>
+            <fieldset class="formList-contents">
+                <label for="phrase" class="formList-label"><img src="assets/img/phrase.svg" alt="">Phrase:</label>
+                <textarea id="phrase" placeholder="Enter your phrase here..." required></textarea>
+            </fieldset>
+            <fieldset class="formList-contents">
+                <!-- タグ入力 -->
+                <label for="tagInput" class="formList-label"><img src="assets/img/tag.svg" alt="">Tag:</label>
+                <div class="tagContents">
+                    <input id="tagInput" type="text" placeholder="Tag" />
+                    <button id="addTagButton" class="addTagButton" type="button"><img src="assets/img/add.svg" alt="">Add</button>
+                </div>
+                <ul id="tagList" class="tagList"></ul>
+            </fieldset>
+            <button id="saveButton" class="saveButton" type="submit"><img src="assets/img/save.svg" alt="">Save Phrase</button>
+        </form>
+    </section>
+
+</main>
 
 <script>
 if ('serviceWorker' in navigator) {
