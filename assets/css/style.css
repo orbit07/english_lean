@@ -202,6 +202,7 @@ img {
     border: 2px solid #fcfcfc;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: .3em;
 }
 .saveButton  img {
