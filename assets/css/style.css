@@ -140,6 +140,7 @@ img {
     border: 1px solid #3c735c;
     border-radius: 420px;
     padding: 0 .3em;
+    gap: .3em;
 }
 .tagButton-wrapper:has(.tagButton-screen.selected) {
     color: #fff;
