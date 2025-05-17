@@ -145,7 +145,7 @@ img {
 }
 .tagButton {
     padding: 2px 6px;
-    border: 1px solid rgba(103, 126, 250, 1);
+    border: 1px solid #3c735c;
     background: #f0f4fc;
     color: #021c0f;
     border-radius: 4px;
@@ -158,12 +158,12 @@ img {
     display: inline-block;
 }
 .tagButton.active {
-    background: rgba(103, 126, 250, 1);
+    background: #3c735c;
     color: #fff;
 }
 .tagButton-screen,
 .remove-button {
-    color: #fff;
+    color: #3c735c;
     background: none;
 }
 
