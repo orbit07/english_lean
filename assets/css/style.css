@@ -134,17 +134,17 @@ img {
     margin-top: .5em;
 }
 .tagButton-wrapper {
-    color: #3c735c;
     display: grid;
     grid-template-columns: auto 1fr;
-    border: 1px solid #3c735c;
+    border: 1px #9abda5 dashed;
     border-radius: 420px;
     padding: 0 .3em;
     gap: .3em;
 }
 .tagButton-wrapper:has(.tagButton-screen.selected) {
     color: #fcfcfc;
-    background: #3c735c;
+    border: 1px #9abda5 dashed;
+    background: #9abda5;
 }
 .tagButton {
     padding: 2px 6px;
@@ -154,7 +154,6 @@ img {
     border-radius: 4px;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: background 0.2s;
 }
 .tagButton {
     width: auto;
@@ -166,11 +165,15 @@ img {
 }
 .tagButton-screen,
 .remove-button {
-    color: #3c735c;
+    color: #9abda5;
     background: none;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.tagButton-screen button,
+.remove-button button {
+    color: #fff;
 }
 .tagButton-screen img,
 .remove-button img {
