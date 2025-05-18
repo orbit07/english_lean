@@ -171,6 +171,7 @@ input, textarea, select {
 /* フレーズ一覧 */
 .phraseList {
     flex-grow: 1;
+    padding-bottom: 30px;
 }
 .phrase-item {
     padding: 1em 1em .5em;
