@@ -298,9 +298,11 @@ input, textarea, select {
     height: auto;
 }
 .headerTagList {
-    display: flex;
     overflow-x: auto;
     white-space: nowrap;
+    grid-area: 2 / 1 / 3 / 3;
+    flex-wrap: nowrap;
+    padding-bottom: .5em;
 }
 .headerTagList button {
     flex: 0 0 auto;
