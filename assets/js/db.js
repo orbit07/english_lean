@@ -56,7 +56,7 @@ export function loadAvailableTags() {
     request.onsuccess = () => {
         if (request.result) {
             state.availableTags = request.result.tags;
-            renderTagList();
+            updateAllTagLists();
         }
     };
 }

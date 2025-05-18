@@ -14,7 +14,7 @@ export function addTag() {
   if (tag && !state.availableTags.includes(tag)) {
     state.availableTags.push(tag);
     tagInput.value = '';
-    renderTagList();
+    updateAllTagLists();
     saveAvailableTags();
   }
 }
@@ -27,7 +27,7 @@ export function toggleTag(tag) {
   } else {
     state.selectedTags.push(tag);
   }
-  renderTagList();
+  updateAllTagLists();
 }
 
 // --------------------------------------------------
@@ -81,7 +81,7 @@ export async function removeTag(tag) {
     if (state.activeTagFilter === tag) state.activeTagFilter = null;
 
     saveAvailableTags();
-    renderTagList();
+    updateAllTagLists();
     loadAllPhrases();
   } catch (err) {
     alert('削除に失敗しました。もう一度お試しください。');
@@ -132,5 +132,30 @@ export function renderTagList() {
 
 // phrases.js から呼び出されるヘルパ
 export function updateTagButtons() {
-  renderTagList();
+  updateAllTagLists();
+}
+
+// --------------------------------------------------
+// ヘッダー下のタグリストを描画
+// --------------------------------------------------
+export function renderHeaderTagList() {
+  const container = document.getElementById('headerTagList');
+  if (!container) return;
+  container.innerHTML = state.availableTags.map(tag => {
+    return `<button type="button" class="tagButton" data-tag="${tag}">#${tag}</button>`;
+  }).join('');
+  
+  // クリックイベントはイベント委任でまとめて
+  container.onclick = e => {
+    const btn = e.target.closest('button.tagButton');
+    if (!btn) return;
+    const tag = btn.dataset.tag;
+    toggleTagFilterFromList(tag);
+  };
+}
+
+// フォーム／ヘッダー 両方を更新するヘルパ
+export function updateAllTagLists() {
+  updateAllTagLists();
+  renderHeaderTagList();
 }
