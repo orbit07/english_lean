@@ -129,17 +129,17 @@ export function renderPhraseList(phrases) {
         const phraseText = document.createElement("span");
     
         if (p.tags && p.tags.length > 0) {
-            p.tags.forEach(idx => {
+            (p.tags || []).forEach(idx => {
                 const tagButton = document.createElement("button");
                 const tagName = state.availableTags[idx];
                 tagButton.textContent = `#${tagName}`;
                 tagButton.classList.add('tagButton');
-                if (state.activeTagFilter === tagName) {
+                if (state.activeTagFilter === idx) {
                   tagButton.classList.add('active');
                 }
                 tagButton.onclick = (e) => {
                     e.stopPropagation();
-                    toggleTagFilterFromList(tag);
+                    toggleTagFilterFromList(idx);
                 };
                 tagGroup.appendChild(tagButton);
             });
