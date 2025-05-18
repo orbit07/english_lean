@@ -213,54 +213,73 @@ export function resetFormToNewEntry() {
     updateTagButtons();
 }
 
-// インポート・エクスポート
+// フレーズ＋タグ 両方をエクスポート
 export async function exportPhrases() {
-  const tx    = state.db.transaction('phrases', 'readonly');
-  const store = tx.objectStore('phrases');
-
-  // ★ Promise 化
-  const all = await new Promise((resolve, reject) => {
+  // 1) フレーズ取得
+  const phrases = await new Promise((resolve, reject) => {
+    const tx = state.db.transaction('phrases', 'readonly');
+    const store = tx.objectStore('phrases');
     const req = store.getAll();
     req.onsuccess = e => resolve(e.target.result);
-    req.onerror   = () => reject(req.error);
+    req.onerror = () => reject(req.error);
   });
 
-  const json  = JSON.stringify(all, null, 2);
-  const blob  = new Blob([json], { type: 'application/json' });
-  const url   = URL.createObjectURL(blob);
+  // 2) タグ取得
+  const tags = await new Promise((resolve, reject) => {
+    const tx = state.db.transaction('tags', 'readonly');
+    const store = tx.objectStore('tags');
+    const req = store.get('all');
+    req.onsuccess = e => resolve(e.target.result?.tags || []);
+    req.onerror = () => reject(req.error);
+  });
 
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `phrases_${Date.now()}.json`;
+  // 3) JSON 化してダウンロード
+  const data = { phrases, tags };
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `data_${Date.now()}.json`;
   document.body.appendChild(a);
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
 }
 
+// フレーズ＋タグ 両方をインポート
 export async function importPhrases(e) {
   const file = e.target.files[0];
   if (!file) return;
 
-  // 読み込み
   const text = await file.text();
   let data;
   try {
     data = JSON.parse(text);
-    if (!Array.isArray(data)) throw new Error();
+    // { phrases: [...], tags: [...] } の形を期待
+    if (
+      typeof data !== 'object' ||
+      !Array.isArray(data.phrases) ||
+      !Array.isArray(data.tags)
+    ) throw new Error();
   } catch {
     alert('ファイル形式が不正です');
     return;
   }
 
-  // IndexedDB へ書き込み
+  // 1) タグをインポート
+  state.availableTags = data.tags;
+  const txTag = state.db.transaction('tags', 'readwrite');
+  txTag.objectStore('tags').put({ id: 'all', tags: data.tags });
+  txTag.oncomplete = () => updateAllTagLists();
+
+  // 2) フレーズをインポート
   const tx    = state.db.transaction('phrases', 'readwrite');
   const store = tx.objectStore('phrases');
-  for (const p of data) store.put(p);
-
+  data.phrases.forEach(p => store.put(p));
   tx.oncomplete = () => {
     loadAllPhrases();
     alert('インポートが完了しました');
   };
   tx.onerror = () => alert('インポートに失敗しました');
-};
+}
