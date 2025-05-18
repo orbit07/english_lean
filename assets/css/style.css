@@ -188,6 +188,7 @@ input, textarea, select {
     height: 25px;
     width: fit-content;
     display: inherit;
+    background: none;
 }
 .button-group button img {
     width: 18px;
