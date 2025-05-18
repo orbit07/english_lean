@@ -134,7 +134,7 @@ export function renderPhraseList(phrases) {
                 const tagName = state.availableTags[idx];
                 tagButton.textContent = `#${tagName}`;
                 tagButton.classList.add('tagButton');
-                if (state.activeTagFilter === tag) {
+                if (state.activeTagFilter === tagName) {
                   tagButton.classList.add('active');
                 }
                 tagButton.onclick = (e) => {

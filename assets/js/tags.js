@@ -136,7 +136,7 @@ export function renderTagList() {
     return `
       <li class="tagButton-wrapper">
         <button class="tagButton-screen${sel}" data-index="${i}">#${tag}</button>
-        <button type="button" class="edit-tag-button" data-index="${i}"><img src="assets/img/edit.svg" alt="Edit"></button>
+        <button type="button" class="edit-tag-button" data-index="${i}"><img src="assets/img/edit_tag.svg" alt="Edit"></button>
         <button type="button" class="remove-button" data-index="${i}"><img src="assets/img/delete.svg" alt="Delete"></button>
       </li>`;
   }).join('');
@@ -154,7 +154,7 @@ export function renderTagList() {
 function startEditTag(index) {
   const input = document.getElementById('tagInput');
   input.value = state.availableTags[index];
-  document.getElementById('addTagButton').innerHTML = '<img src="assets/img/edit.svg" alt="Edit">Edit';
+  document.getElementById('addTagButton').innerHTML = '<img src="assets/img/edit_tag.svg" alt="Edit">Edit';
   editingTagIndex = index;
 }
 
