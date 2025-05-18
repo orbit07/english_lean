@@ -93,9 +93,11 @@ export function applyFilter(allPhrases) {
         filtered = allPhrases;
     }
   
-    // タグフィルターが設定されていれば、さらにタグで絞り込む
-    if (state.activeTagFilter) {
-        filtered = filtered.filter(p => p.tags && p.tags.includes(state.activeTagFilter));
+    // タグフィルターが設定されていれば、さらにタグ（インデックス）で絞り込む
+    if (state.activeTagFilter !== null) {
+        filtered = filtered.filter(p =>
+            p.tags?.includes(state.activeTagFilter)
+        );
     }
 
     // ★ 検索フィルター（大文字小文字を無視） ★
@@ -127,9 +129,10 @@ export function renderPhraseList(phrases) {
         const phraseText = document.createElement("span");
     
         if (p.tags && p.tags.length > 0) {
-            p.tags.forEach(tag => {
+            p.tags.forEach(idx => {
                 const tagButton = document.createElement("button");
-                tagButton.textContent = `#${tag}`;
+                const tagName = state.availableTags[idx];
+                tagButton.textContent = `#${tagName}`;
                 tagButton.classList.add('tagButton');
                 if (state.activeTagFilter === tag) {
                   tagButton.classList.add('active');
