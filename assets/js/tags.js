@@ -142,7 +142,9 @@ export function renderHeaderTagList() {
   const container = document.getElementById('headerTagList');
   if (!container) return;
   container.innerHTML = state.availableTags.map(tag => {
-    return `<button type="button" class="tagButton" data-tag="${tag}">#${tag}</button>`;
+    // state.activeTagFilter と同じタグなら 'active' を足す
+    const activeClass = state.activeTagFilter === tag ? ' active' : '';
+    return `<button type="button" class="tagButton${activeClass}" data-tag="${tag}">#${tag}</button>`;
   }).join('');
   
   // クリックイベントはイベント委任でまとめて
