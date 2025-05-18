@@ -10,87 +10,103 @@ let editingTagIndex = null;
 // タグ CRUD
 // --------------------------------------------------
 
-export function addTag() {
+export async function addTag() {
   const input = document.getElementById('tagInput');
-  const tag = input.value.trim();
-  if (!tag) return;
+  const newTag = input.value.trim();
+  if (!newTag) return;
 
   if (editingTagIndex !== null) {
-    // 編集モード: 既存タグを更新
-    state.availableTags[editingTagIndex] = tag;
+    // 編集モード: 既存タグの名称変更
+    const oldTag = state.availableTags[editingTagIndex];
+    if (oldTag === newTag) {
+      // 変更なし
+      editingTagIndex = null;
+      document.getElementById('addTagButton').textContent = 'Add';
+      input.value = '';
+      return;
+    }
+    // 件数を確認
+    const count = await countPhrasesWithTag(oldTag);
+    const ok = window.confirm(
+      `このタグを編集すると、関連する ${count} 件のフレーズのタグが変更されます。\n本当に編集しますか？`
+    );
+    if (!ok) return;
+
+    // DB 内のタグを一括変更
+    await renameTagGlobally(oldTag, newTag);
+
+    // availableTags と selectedTags を更新
+    state.availableTags[editingTagIndex] = newTag;
+    state.selectedTags = state.selectedTags.map(t => t === oldTag ? newTag : t);
+    if (state.activeTagFilter === oldTag) state.activeTagFilter = newTag;
+
     editingTagIndex = null;
     document.getElementById('addTagButton').innerHTML = '<img src="assets/img/add.svg" alt="">Add';
   } else {
     // 新規追加
-    if (state.availableTags.includes(tag)) return;
-    state.availableTags.push(tag);
+    if (state.availableTags.includes(newTag)) return;
+    state.availableTags.push(newTag);
   }
   input.value = '';
   updateAllTagLists();
   saveAvailableTags();
 }
 
-// タグを選択 / 解除する関数
 export function toggleTag(tag) {
   const idx = state.selectedTags.indexOf(tag);
-  if (idx > -1) {
-    state.selectedTags.splice(idx, 1);
-  } else {
-    state.selectedTags.push(tag);
-  }
+  if (idx > -1) state.selectedTags.splice(idx, 1);
+  else           state.selectedTags.push(tag);
   updateAllTagLists();
 }
 
 // --------------------------------------------------
-// タグ削除 — 件数確認 → 一括削除
+// 件数確認・タグ操作ヘルパ
 // --------------------------------------------------
 
-// 1) 件数を数える
 function countPhrasesWithTag(tag) {
   return new Promise(resolve => {
     const tx = state.db.transaction('phrases', 'readonly');
     const store = tx.objectStore('phrases');
     store.getAll().onsuccess = e => {
-      const cnt = e.target.result.filter(p => (p.tags ?? []).includes(tag)).length;
+      const cnt = e.target.result.filter(p => p.tags?.includes(tag)).length;
       resolve(cnt);
     };
   });
 }
 
-// 2) 全フレーズからタグを外す
-function deleteTagGlobally(tag) {
+function renameTagGlobally(oldTag, newTag) {
   return new Promise((resolve, reject) => {
     const tx = state.db.transaction('phrases', 'readwrite');
     const store = tx.objectStore('phrases');
-
     store.getAll().onsuccess = e => {
       e.target.result.forEach(p => {
-        if ((p.tags ?? []).includes(tag)) {
-          p.tags = p.tags.filter(t => t !== tag);
+        if (p.tags?.includes(oldTag)) {
+          p.tags = p.tags.map(t => t === oldTag ? newTag : t);
           store.put(p);
         }
       });
     };
-
     tx.oncomplete = resolve;
     tx.onerror = () => reject(tx.error);
   });
 }
 
-// 3) エントリーポイント
-export async function removeTag(tag) {
+// --------------------------------------------------
+// タグ削除・一括削除
+// --------------------------------------------------
+
+async function removeTag(tag) {
   const count = await countPhrasesWithTag(tag);
-  const ok = window.confirm(`このタグを削除すると、関連する ${count} 件のフレーズからタグが削除されます。\n本当に削除しますか？`);
+  const ok = window.confirm(
+    `このタグを削除すると、関連する ${count} 件のフレーズからタグが削除されます。\n本当に削除しますか？`
+  );
   if (!ok) return;
 
   try {
     await deleteTagGlobally(tag);
-
-    // タグリストと内部状態を更新
     state.availableTags = state.availableTags.filter(t => t !== tag);
-    state.selectedTags  = state.selectedTags.filter(t => t !== tag);
+    state.selectedTags = state.selectedTags.filter(t => t !== tag);
     if (state.activeTagFilter === tag) state.activeTagFilter = null;
-
     saveAvailableTags();
     updateAllTagLists();
     loadAllPhrases();
@@ -99,6 +115,7 @@ export async function removeTag(tag) {
     console.error(err);
   }
 }
+export { removeTag };
 
 // --------------------------------------------------
 // タグフィルター
@@ -109,19 +126,16 @@ export function toggleTagFilter(tag) {
   loadAllPhrases();
   updateAllTagLists();
 }
-export function toggleTagFilterFromList(tag) {
-  toggleTagFilter(tag);
-}
+export function toggleTagFilterFromList(tag) { toggleTagFilter(tag); }
 
 // --------------------------------------------------
-// ビュー更新
+// ビュー更新 — フォーム用
 // --------------------------------------------------
 
 export function renderTagList() {
   const container = document.getElementById('tagList');
   if (!container) return;
-
-  container.innerHTML = state.availableTags.map((tag, i) => {
+  container.innerHTML = state.availableTags.map((tag,i) => {
     const isSel = state.selectedTags.includes(tag) ? ' selected' : '';
     return `
       <li class="tagButton-wrapper">
@@ -130,17 +144,12 @@ export function renderTagList() {
         <button type="button" class="remove-button" data-tag="${tag}"><img src="assets/img/delete.svg" alt="Delete"></button>
       </li>`;
   }).join('');
-
   container.onclick = e => {
     const btn = e.target.closest('button');
     if (!btn) return;
-    if (btn.classList.contains('tagButton-screen')) {
-      toggleTag(btn.dataset.tag);
-    } else if (btn.classList.contains('remove-button')) {
-      removeTag(btn.dataset.tag);
-    } else if (btn.classList.contains('edit-tag-button')) {
-      startEditTag(parseInt(btn.dataset.index, 10));
-    }
+    if (btn.classList.contains('tagButton-screen')) toggleTag(btn.dataset.tag);
+    else if (btn.classList.contains('remove-button')) removeTag(btn.dataset.tag);
+    else if (btn.classList.contains('edit-tag-button')) startEditTag(parseInt(btn.dataset.index,10));
   };
 }
 
@@ -152,34 +161,27 @@ function startEditTag(index) {
 }
 
 // phrases.js から呼び出されるヘルパ
-export function updateTagButtons() {
-  updateAllTagLists();
-}
+export function updateTagButtons() { updateAllTagLists(); }
 
 // --------------------------------------------------
-// ヘッダー下のタグリストを描画
+// ビュー更新 — ヘッダー用
 // --------------------------------------------------
+
 export function renderHeaderTagList() {
   const container = document.getElementById('headerTagList');
   if (!container) return;
   container.innerHTML = state.availableTags.map(tag => {
-    // state.activeTagFilter と同じタグなら 'active' を足す
-    const activeClass = state.activeTagFilter === tag ? ' active' : '';
-    return `<button type="button" class="tagButton${activeClass}" data-tag="${tag}">#${tag}</button>`;
+    const active = state.activeTagFilter === tag ? ' active' : '';
+    return `<button type="button" class="tagButton${active}" data-tag="${tag}">#${tag}</button>`;
   }).join('');
-  
-  // クリックイベントはイベント委任でまとめて
   container.onclick = e => {
     const btn = e.target.closest('button.tagButton');
-    if (!btn) return;
-    toggleTagFilterFromList(btn.dataset.tag);
+    if (!btn) return; toggleTagFilterFromList(btn.dataset.tag);
   };
 }
 
-// フォーム／ヘッダー 両方を更新するヘルパ
+// フォーム／ヘッダー 両方を更新
 export function updateAllTagLists() {
-  // フォーム下のタグボタン群を再描画
   renderTagList();
-  // ヘッダー下のタグボタン群を再描画
   renderHeaderTagList();
 }
