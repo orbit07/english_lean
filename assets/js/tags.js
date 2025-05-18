@@ -159,7 +159,7 @@ export function renderTagList() {
 function startEditTag(index) {
   const input = document.getElementById('tagInput');
   input.value = state.availableTags[index];
-  document.getElementById('addTagButton').innerHTML = '<img src="assets/img/edit_tag.svg" alt="Edit">Edit';
+  document.getElementById('addTagButton').innerHTML = '<img src="assets/img/edit.svg" alt="Edit">Edit';
   editingTagIndex = index;
 }
 

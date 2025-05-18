@@ -1,5 +1,5 @@
 // ① キャッシュ名を定義（バージョンを上げるときはここを書き換える）
-const CACHE_NAME = 'phrase-app-v2.6';
+const CACHE_NAME = 'phrase-app-v2.7';
 
 // ② キャッシュ対象のリストを配列にまとめておくと管理しやすい
 const URLS_TO_CACHE = [
