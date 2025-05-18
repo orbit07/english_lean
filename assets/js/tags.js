@@ -156,6 +156,8 @@ export function renderHeaderTagList() {
 
 // フォーム／ヘッダー 両方を更新するヘルパ
 export function updateAllTagLists() {
-  updateAllTagLists();
+  // フォーム下のタグボタン群を再描画
+  renderTagList();
+  // ヘッダー下のタグボタン群を再描画
   renderHeaderTagList();
 }
