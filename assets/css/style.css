@@ -164,6 +164,9 @@ input, textarea, select {
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing);
 }
+.searchInput {
+    width: 100%;
+}
 
 /* フレーズ一覧 */
 .phraseList {
