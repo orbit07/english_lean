@@ -94,8 +94,11 @@ export async function removeTag(tag) {
 // --------------------------------------------------
 
 export function toggleTagFilter(tag) {
+  console.log('before:', state.activeTagFilter);
   state.activeTagFilter = state.activeTagFilter === tag ? null : tag;
+  console.log('after:',  state.activeTagFilter);
   loadAllPhrases();
+  updateAllTagLists();
 }
 export function toggleTagFilterFromList(tag) {
   toggleTagFilter(tag);
