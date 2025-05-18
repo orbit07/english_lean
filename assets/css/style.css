@@ -281,7 +281,8 @@ input, textarea, select {
     color: #fcfcfc;
 }
 .tagButton-screen,
-.remove-button {
+.remove-button,
+.edit-tag-button {
     color: #9abda5;
     background: none;
     display: flex;
