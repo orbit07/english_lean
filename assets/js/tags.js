@@ -26,6 +26,32 @@ export async function addTag() {
     // 関連フレーズ件数確認
     const count = await countPhrasesWithTag(idx);
     const ok = window.confirm(
+      `このタグを編集すると、関連する ${count} 件のフレーズのタグが変更されます。
+本当に編集しますか？`
+    );
+    if (!ok) return;
+
+    // タグ名更新
+    state.availableTags[idx] = newTag;
+    if (state.activeTagFilter === idx) state.activeTagFilter = idx;
+
+    // 保存と UI 更新
+    saveAvailableTags();
+    updateAllTagLists();
+    loadAllPhrases();
+    resetEditMode();
+  } else {
+    // 新規追加
+    if (state.availableTags.includes(newTag)) return;
+    state.availableTags.push(newTag);
+    saveAvailableTags();
+    updateAllTagLists();
+  }
+
+  input.value = '';
+}    // 関連フレーズ件数確認
+    const count = await countPhrasesWithTag(idx);
+    const ok = window.confirm(
       `このタグを編集すると、関連する ${count} 件のフレーズのタグが変更されます。\n本当に編集しますか？`
     );
     if (!ok) return;
@@ -154,7 +180,7 @@ export function renderTagList() {
 function startEditTag(index) {
   const input = document.getElementById('tagInput');
   input.value = state.availableTags[index];
-  document.getElementById('addTagButton').innerHTML = '<img src="assets/img/edit_tag.svg" alt="Edit">Edit';
+  document.getElementById('addTagButton').innerHTML = '<img src="assets/img/edit.svg" alt="Edit">Edit';
   editingTagIndex = index;
 }
 
@@ -169,7 +195,7 @@ export function renderHeaderTagList() {
   const container = document.getElementById('headerTagList');
   if (!container) return;
   container.innerHTML = state.availableTags.map((tag,i)=>{
-    const act = (state.activeTagFilter === i) ? ' active' : '';
+    const act = state.activeTagFilter===i?' active':'';
     return `<button type="button" class="tagButton${act}" data-index="${i}">#${tag}</button>`;
   }).join('');
   container.onclick = e => {
