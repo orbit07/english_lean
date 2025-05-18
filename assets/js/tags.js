@@ -3,20 +3,31 @@
 import { state } from './state.js';
 import { saveAvailableTags, loadAllPhrases } from './db.js';
 
+// 編集対象タグのインデックス
+let editingTagIndex = null;
+
 // --------------------------------------------------
 // タグ CRUD
 // --------------------------------------------------
 
-// タグを追加する関数
 export function addTag() {
-  const tagInput = document.getElementById('tagInput');
-  const tag = tagInput.value.trim();
-  if (tag && !state.availableTags.includes(tag)) {
+  const input = document.getElementById('tagInput');
+  const tag = input.value.trim();
+  if (!tag) return;
+
+  if (editingTagIndex !== null) {
+    // 編集モード: 既存タグを更新
+    state.availableTags[editingTagIndex] = tag;
+    editingTagIndex = null;
+    document.getElementById('addTagButton').textContent = 'Add';
+  } else {
+    // 新規追加
+    if (state.availableTags.includes(tag)) return;
     state.availableTags.push(tag);
-    tagInput.value = '';
-    updateAllTagLists();
-    saveAvailableTags();
   }
+  input.value = '';
+  updateAllTagLists();
+  saveAvailableTags();
 }
 
 // タグを選択 / 解除する関数
@@ -94,9 +105,7 @@ export async function removeTag(tag) {
 // --------------------------------------------------
 
 export function toggleTagFilter(tag) {
-  console.log('before:', state.activeTagFilter);
   state.activeTagFilter = state.activeTagFilter === tag ? null : tag;
-  console.log('after:',  state.activeTagFilter);
   loadAllPhrases();
   updateAllTagLists();
 }
@@ -112,25 +121,34 @@ export function renderTagList() {
   const container = document.getElementById('tagList');
   if (!container) return;
 
-  // 1) HTML を生成
-  container.innerHTML = state.availableTags.map(tag => {
+  container.innerHTML = state.availableTags.map((tag, i) => {
     const isSel = state.selectedTags.includes(tag) ? ' selected' : '';
     return `
       <li class="tagButton-wrapper">
         <button class="tagButton-screen${isSel}" data-tag="${tag}">#${tag}</button>
-        <button class="remove-button" data-tag="${tag}"><img src="assets/img/delete.svg" alt="Delete"></button>
+        <button type="button" class="edit-tag-button" data-index="${i}"><img src="assets/img/edit.svg" alt="Edit"></button>
+        <button type="button" class="remove-button" data-tag="${tag}"><img src="assets/img/delete.svg" alt="Delete"></button>
       </li>`;
   }).join('');
 
-  // 2) クリック処理 — イベント委任
   container.onclick = e => {
-    const target = e.target;
-    if (target.matches('.tagButton-screen')) {
-      toggleTag(target.dataset.tag);
-    } else if (target.matches('.remove-button')) {
-      removeTag(target.dataset.tag);
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    if (btn.classList.contains('tagButton-screen')) {
+      toggleTag(btn.dataset.tag);
+    } else if (btn.classList.contains('remove-button')) {
+      removeTag(btn.dataset.tag);
+    } else if (btn.classList.contains('edit-tag-button')) {
+      startEditTag(parseInt(btn.dataset.index, 10));
     }
   };
+}
+
+function startEditTag(index) {
+  const tag = state.availableTags[index];
+  document.getElementById('tagInput').value = tag;
+  document.getElementById('addTagButton').textContent = 'Edit';
+  editingTagIndex = index;
 }
 
 // phrases.js から呼び出されるヘルパ
@@ -147,7 +165,6 @@ export function renderHeaderTagList() {
   container.innerHTML = state.availableTags.map(tag => {
     // state.activeTagFilter と同じタグなら 'active' を足す
     const activeClass = state.activeTagFilter === tag ? ' active' : '';
-    console.log(state.activeTagFilter === tag);
     return `<button type="button" class="tagButton${activeClass}" data-tag="${tag}">#${tag}</button>`;
   }).join('');
   
@@ -155,8 +172,7 @@ export function renderHeaderTagList() {
   container.onclick = e => {
     const btn = e.target.closest('button.tagButton');
     if (!btn) return;
-    const tag = btn.dataset.tag;
-    toggleTagFilterFromList(tag);
+    toggleTagFilterFromList(btn.dataset.tag);
   };
 }
 
