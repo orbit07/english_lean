@@ -19,7 +19,7 @@ export function addTag() {
     // 編集モード: 既存タグを更新
     state.availableTags[editingTagIndex] = tag;
     editingTagIndex = null;
-    document.getElementById('addTagButton').textContent = 'Add';
+    document.getElementById('addTagButton').innerHTML = '<img src="assets/img/add.svg" alt="">Add';
   } else {
     // 新規追加
     if (state.availableTags.includes(tag)) return;
@@ -147,7 +147,7 @@ export function renderTagList() {
 function startEditTag(index) {
   const tag = state.availableTags[index];
   document.getElementById('tagInput').value = tag;
-  document.getElementById('addTagButton').textContent = 'Edit';
+  document.getElementById('addTagButton').innerHTML = '<img src="assets/img/edit.svg" alt="Edit">Edit';
   editingTagIndex = index;
 }
 
