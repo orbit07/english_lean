@@ -255,11 +255,11 @@ input, textarea, select {
 }
 .tagButton-wrapper {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr 1fr;
     border: 1px #9abda5 dashed;
     border-radius: 40px;
     padding: 0 .3em;
-    gap: .3em;
+    gap: var(--spacing);
 }
 .tagButton-wrapper:has(.tagButton-screen.selected) {
     color: #fcfcfc;

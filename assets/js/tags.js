@@ -126,7 +126,7 @@ export function renderTagList() {
     return `
       <li class="tagButton-wrapper">
         <button class="tagButton-screen${isSel}" data-tag="${tag}">#${tag}</button>
-        <button type="button" class="edit-tag-button" data-index="${i}"><img src="assets/img/edit.svg" alt="Edit"></button>
+        <button type="button" class="edit-tag-button" data-index="${i}"><img src="assets/img/edit_tag.svg" alt="Edit"></button>
         <button type="button" class="remove-button" data-tag="${tag}"><img src="assets/img/delete.svg" alt="Delete"></button>
       </li>`;
   }).join('');
