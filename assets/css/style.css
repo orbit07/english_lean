@@ -1,10 +1,14 @@
-/* assets/css/style.css */
-
 /*- reset -*/
-*, *::before, *::after { 
+*,
+ *::before,
+ *::after { 
     box-sizing: border-box;
 }
-button, input, textarea, select { 
+button,
+input,
+textarea,
+select { 
+    font-family: inherit;
     font-family: inherit;
     font-size: 1em;
     padding: 0;
@@ -24,7 +28,7 @@ body {
 ul, li {
     padding: 0;
     margin: 0;
-    list-style: none;
+    list-style-type: none;
 }
 fieldset {
     padding: 0;
@@ -85,7 +89,6 @@ input, textarea, select {
   white-space: nowrap;
   border: 0;
 }
-
 .fixedHeader {
     position: sticky;
     top: 0;
@@ -101,9 +104,10 @@ input, textarea, select {
     display: grid;
     grid-template-columns: 40px 40px 1fr;
     gap: var(--spacing);
-    align-items: center;
+    justify-content: center;
 }
-.exportBtn, .importBtn {
+.exportBtn,
+.importBtn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,23 +123,28 @@ input, textarea, select {
     border-radius: 20px;
     padding: .3em;
 }
-.formButton, .listButton {
+.formButton,
+.listButton {
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--color-input-bg);
     padding: .3em;
 }
-.formButton.active, .listButton.active {
+.formButton.active,
+.listButton.active {
     background: var(--color-primary);
 }
-.formButton img, .listButton img { width: 15px; }
+.formButton img,
+.listButton img {
+    width: 15px;
+}
 
 /* 動画＋フィルター */
 .video-wrapper {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%;
+    padding-bottom: 56.25%; /* 16:9 */
     overflow: hidden;
     border-radius: 16px;
     background: #000;
@@ -144,20 +153,24 @@ input, textarea, select {
 }
 .video-wrapper iframe {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     border: none;
 }
 .filter-wrapper {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: var(--spacing);
-    margin-top: var(--spacing);
 }
 
 /* フレーズ一覧 */
-.phraseList { flex-grow: 1; overflow-y: auto; }
+.phraseList {
+    flex-grow: 1;
+}
 .phrase-item {
-    padding: 1em;
+    padding: 1em 1em .5em;
     border-bottom: 1px solid #ddd;
 }
 .phrase_text {
@@ -171,15 +184,21 @@ input, textarea, select {
     margin-top: var(--spacing);
     justify-content: space-around;
 }
-.button-group button { height: 25px; }
-.button-group img { width: 18px; }
+.button-group button {
+    height: 25px;
+    width: fit-content;
+    display: inherit;
+}
+.button-group button img {
+    width: 18px;
+}
 
 /* フォーム */
 .formList {
     display: flex;
     flex-direction: column;
     gap: 1em;
-    margin: 1em;
+    margin: 1em 0;
 }
 .formList-contents {
     display: flex;
@@ -204,7 +223,9 @@ input, textarea, select {
 
 /* タグ */
 .tagContents {
-    display: flex;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-items: center;
     gap: var(--spacing);
     margin-bottom: var(--spacing);
 }
@@ -215,39 +236,63 @@ input, textarea, select {
     gap: .3em;
     background: var(--color-text);
     color: #fff;
-    padding: .3em;
+    padding: .2em;
     border-radius: var(--radius);
 }
 .addTagButton img { width: 15px; }
-.tag-group, .tagList {
+.tag-group,
+.tagList {
     display: flex;
     flex-wrap: wrap;
     gap: .3em;
 }
+.tag-group {
+    margin-top: .5em;
+}
 .tagButton-wrapper {
-    display: flex;
-    align-items: center;
-    gap: .3em;
-    background: #fff;
-    border: 1px dashed #9abda5;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    border: 1px #9abda5 dashed;
     border-radius: 40px;
     padding: 0 .3em;
+    gap: .3em;
 }
-.tagButton-wrapper .tagButton-screen.selected {
+.tagButton-wrapper:has(.tagButton-screen.selected) {
+    color: #fcfcfc;
+    border: 1px #9abda5 dashed;
     background: #9abda5;
+}
+.tagButton {
+    color: #9abda5;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    border: 1px #9abda5 dashed;
+    border-radius: 40px;
+    padding: 0 .3em;
+    width: fit-content;
+    background: #fff;
+}
+.tagButton.active {
+    background: #9abda5;
+    color: #fcfcfc;
+}
+.tagButton-screen,
+.remove-button {
+    color: #9abda5;
+    background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tagButton-screen.selected,
+.remove-button.selected {
     color: #fff;
 }
-.tagButton-screen {
-    background: none;
-    cursor: pointer;
-    padding: .3em;
+.tagButton-screen img,
+.remove-button img {
+    width: 15px;
+    height: auto;
 }
-.remove-button {
-    background: none;
-    cursor: pointer;
-    padding: .3em;
-}
-.remove-button img { width: 15px; }
 
 /* トースト */
 .toast {
@@ -256,15 +301,17 @@ input, textarea, select {
     left: 50%;
     transform: translateX(-50%) translateY(100%);
     background: var(--color-text);
-    color: #fcfcfc;
-    padding: 8px 16px;
-    border-radius: 8px;
-    opacity: 0;
+    color:#fcfcfc;
+    padding:8px 16px;
+    border-radius:8px;
+    opacity:0;
     transition: all .3s ease;
-    z-index: 1000;
+    z-index:1000;
 }
 .toast.active {
     transform: translateX(-50%) translateY(0);
-    opacity: 1;
+    opacity:1;
 }
-.toast.error { background: #d93025; }
+.toast.error {
+    background:#d93025;
+}
