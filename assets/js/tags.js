@@ -144,6 +144,7 @@ export function renderHeaderTagList() {
   container.innerHTML = state.availableTags.map(tag => {
     // state.activeTagFilter と同じタグなら 'active' を足す
     const activeClass = state.activeTagFilter === tag ? ' active' : '';
+    console.log(tate.activeTagFilter === tag);
     return `<button type="button" class="tagButton${activeClass}" data-tag="${tag}">#${tag}</button>`;
   }).join('');
   
