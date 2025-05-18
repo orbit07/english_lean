@@ -1,7 +1,7 @@
 // db.js — IndexedDB 操作用モジュール
 // 必要な関数や変数をインポート
 import { state } from './state.js';
-import { renderTagList } from './tags.js';
+import { updateAllTagLists } from './tags.js';
 import { applyFilter } from './phrases.js';
 import { showToast } from './toast.js';
 
