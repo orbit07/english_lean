@@ -148,23 +148,7 @@ export function renderPhraseList(phrases) {
         phraseText.textContent = `[${timeFormatted}] ${p.text}`;
         phraseText.classList.add('phrase_text');
         phraseText.onclick = () => {
-            const listEl = document.getElementById("phraseList");
-            const prevScroll = window.pageYOffset;  // ① 現在のスクロール位置を保存
-            console.log(prevScroll);
-
-            showScreen('list');
-            showVideo(p.videoId);
-            state.currentVideoId = p.videoId;
-
-            loadAllPhrases(); // ② フィルター再適用 → renderPhraseList が走ります
-
-            // ③ 描画が終わったあとでスクロールを復元
-            //    setTimeout で一度イベントループをまたいでから実行すると
-            //    renderPhraseList が終わったあとに確実に走ります。
-            setTimeout(() => {
-              listEl.scrollTop = prevScroll;
-              console.log(prevScroll);
-            }, 0)
+            
 
             // YouTube 再生
             const iframe = document.getElementById("youtubePlayer");
