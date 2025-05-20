@@ -148,7 +148,7 @@ export function renderPhraseList(phrases) {
         phraseText.textContent = `[${timeFormatted}] ${p.text}`;
         phraseText.classList.add('phrase_text');
         phraseText.onclick = () => {
-            showScreen('list');
+            // showScreen('list');
             showVideo(p.videoId);
             state.currentVideoId = p.videoId;
             // loadAllPhrases();
