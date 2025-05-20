@@ -150,6 +150,7 @@ export function renderPhraseList(phrases) {
         phraseText.onclick = () => {
             const listEl = document.getElementById("phraseList");
             const prevScroll = listEl.scrollTop;  // ① 現在のスクロール位置を保存
+            console.log(prevScroll);
 
             showScreen('list');
             showVideo(p.videoId);
@@ -162,6 +163,7 @@ export function renderPhraseList(phrases) {
             //    renderPhraseList が終わったあとに確実に走ります。
             setTimeout(() => {
               listEl.scrollTop = prevScroll;
+              console.log(prevScroll);
             }, 0)
 
             // YouTube 再生
