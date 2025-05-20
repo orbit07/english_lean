@@ -149,7 +149,7 @@ export function renderPhraseList(phrases) {
         phraseText.classList.add('phrase_text');
         phraseText.onclick = () => {
             const listEl = document.getElementById("phraseList");
-            const prevScroll = listEl.scrollTop;  // ① 現在のスクロール位置を保存
+            const prevScroll = window.pageYOffset;  // ① 現在のスクロール位置を保存
             console.log(prevScroll);
 
             showScreen('list');
