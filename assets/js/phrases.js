@@ -76,6 +76,8 @@ export function savePhrase() {
 
 // フレーズにフィルターを適用する関数
 export function applyFilter(allPhrases) {
+    // ★ 新しい順（ID 降順）にソート
+    allPhrases.sort((a, b) => b.id - a.id);
     const filterSelectElement = document.getElementById("filterSelect");
     const filter = filterSelectElement ? filterSelectElement.value : "all";
 
