@@ -220,6 +220,8 @@ input, textarea, select {
     gap: 1em;
     overflow-y: scroll;
     overflow-x: hidden;
+    overscroll-behavior: contain; 
+    -webkit-overflow-scrolling: touch;
 }
 .formList-contents {
     display: flex;
