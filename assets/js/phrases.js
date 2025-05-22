@@ -157,7 +157,7 @@ export function renderPhraseList(phrases) {
             p.tags.forEach(idx => {
                 const tagName = state.availableTags[idx];
                 const tagButton = document.createElement("button");
-                tagBtn.type = "button";
+                tagButton.type = "button";
                 tagButton.classList.add('tagButton');
                 if (state.activeTagFilter === idx) {
                   tagButton.classList.add('active');
