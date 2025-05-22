@@ -219,6 +219,7 @@ input, textarea, select {
     flex-direction: column;
     gap: 1em;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 .formList-contents {
     display: flex;

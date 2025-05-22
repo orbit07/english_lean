@@ -154,6 +154,7 @@ export function renderPhraseList(phrases) {
         // タグ群（タグがある場合のみ）
         if (p.tags && p.tags.length > 0) {
           const tagGroup = document.createElement("div");
+          tagGroup.classList.add('tag-group');
             p.tags.forEach(idx => {
                 const tagName = state.availableTags[idx];
                 const tagButton = document.createElement("button");
