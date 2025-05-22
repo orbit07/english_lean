@@ -131,14 +131,6 @@ export function renderPhraseList(phrases) {
         const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
     
         const phraseText = document.createElement("span");
-
-        // 追加：Note 表示
-        if (p.note) {
-          const noteEl = document.createElement("div");
-          noteEl.className = "phrase-note";
-          noteEl.textContent = p.note;
-          div.appendChild(noteEl);
-        }
     
         if (p.tags && p.tags.length > 0) {
             (p.tags || []).forEach(idx => {
@@ -169,6 +161,14 @@ export function renderPhraseList(phrases) {
                 iframe.src = `https://www.youtube.com/embed/${p.videoId}?start=${p.time}&autoplay=1`;
             }
         };
+
+        // 追加：Note 表示
+        if (p.note) {
+          const noteEl = document.createElement("div");
+          noteEl.className = "phrase-note";
+          noteEl.textContent = p.note;
+          div.appendChild(noteEl);
+        }
     
         const buttonGroup = document.createElement("div");
         buttonGroup.className = "button-group";

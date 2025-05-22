@@ -34,31 +34,33 @@
     <section id="formScreen" class="screen hidden" aria-labelledby="formTitle">
         <h2 id="formTitle" class="visually-hidden">New or Edit Phrase</h2>
         <form class="formList">
-            <fieldset class="formList-contents">
-                <label for="youtubeUrl" class="formList-label"><img src="assets/img/url.svg" alt="">YouTube URL:</label>
-                <input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=xxxx" required />
-            </fieldset>
-            <fieldset class="formList-contents">
-                <label for="startTime" class="formList-label"><img src="assets/img/time.svg" alt="">Start Time:</label>
-                <input id="startTime" type="text" pattern="\d+:\d{1,2}" placeholder="e.g. 1:30" required />
-            </fieldset>
-            <fieldset class="formList-contents">
-                <label for="phrase" class="formList-label"><img src="assets/img/phrase.svg" alt="">Phrase:</label>
-                <textarea id="phrase" placeholder="Enter your phrase here..." required></textarea>
-            </fieldset>
-            <fieldset class="formList-contents">
-                <label for="note" class="formList-label"><img src="assets/img/note.svg" alt="">Note:</label>
-                <textarea id="note" placeholder="このフレーズの意味やメモを入力…"></textarea>
-            </fieldset>
-            <fieldset class="formList-contents">
-                <!-- タグ入力 -->
-                <label for="tagInput" class="formList-label"><img src="assets/img/tag.svg" alt="">Tag:</label>
-                <div class="tagContents">
-                    <input id="tagInput" type="text" placeholder="Tag" />
-                    <button id="addTagButton" class="addTagButton" type="button"><img src="assets/img/add.svg" alt="">Add</button>
-                </div>
-                <ul id="tagList" class="tagList"></ul>
-            </fieldset>
+            <div class="formList-inner">
+                <fieldset class="formList-contents">
+                    <label for="youtubeUrl" class="formList-label"><img src="assets/img/url.svg" alt="">YouTube URL:</label>
+                    <input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=xxxx" required />
+                </fieldset>
+                <fieldset class="formList-contents">
+                    <label for="startTime" class="formList-label"><img src="assets/img/time.svg" alt="">Start Time:</label>
+                    <input id="startTime" type="text" pattern="\d+:\d{1,2}" placeholder="e.g. 1:30" required />
+                </fieldset>
+                <fieldset class="formList-contents">
+                    <label for="phrase" class="formList-label"><img src="assets/img/phrase.svg" alt="">Phrase:</label>
+                    <textarea id="phrase" placeholder="Enter your phrase here..." required></textarea>
+                </fieldset>
+                <fieldset class="formList-contents">
+                    <label for="note" class="formList-label"><img src="assets/img/note.svg" alt="">Note:</label>
+                    <textarea id="note" placeholder="このフレーズの意味やメモを入力…"></textarea>
+                </fieldset>
+                <fieldset class="formList-contents">
+                    <!-- タグ入力 -->
+                    <label for="tagInput" class="formList-label"><img src="assets/img/tag.svg" alt="">Tag:</label>
+                    <div class="tagContents">
+                        <input id="tagInput" type="text" placeholder="Tag" />
+                        <button id="addTagButton" class="addTagButton" type="button"><img src="assets/img/add.svg" alt="">Add</button>
+                    </div>
+                    <ul id="tagList" class="tagList"></ul>
+                </fieldset>
+            </div>
             <button id="saveButton" class="saveButton" type="submit"><img src="assets/img/save.svg" alt="">Save Phrase</button>
         </form>
     </section>
