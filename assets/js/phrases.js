@@ -124,55 +124,72 @@ export function renderPhraseList(phrases) {
     phrases.forEach((p) => {
         const div = document.createElement("div");
         div.className = "phrase-item";
-        const tagGroup = document.createElement("div");
-        tagGroup.className = "tag-group";
+        
+        // 時刻フォーマット
         const minutes = Math.floor(p.time / 60);
         const seconds = p.time % 60;
         const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
     
         const phraseText = document.createElement("span");
-    
-        if (p.tags && p.tags.length > 0) {
-            (p.tags || []).forEach(idx => {
-                const tagButton = document.createElement("button");
-                const tagName = state.availableTags[idx];
-                tagButton.textContent = `#${tagName}`;
-                tagButton.classList.add('tagButton');
-                if (state.activeTagFilter === idx) {
-                  tagButton.classList.add('active');
-                }
-                tagButton.onclick = (e) => {
-                    e.stopPropagation();
-                    toggleTagFilterFromList(idx);
-                };
-                tagGroup.appendChild(tagButton);
-            });
-        }
-    
         phraseText.textContent = `[${timeFormatted}] ${p.text}`;
         phraseText.classList.add('phrase_text');
         phraseText.onclick = () => {
-            // showScreen('list');
             showVideo(p.videoId);
             state.currentVideoId = p.videoId;
-            // loadAllPhrases();
             const iframe = document.getElementById("youtubePlayer");
             if (iframe) {
                 iframe.src = `https://www.youtube.com/embed/${p.videoId}?start=${p.time}&autoplay=1`;
             }
         };
+        div.appendChild(phraseText);
 
-        // 追加：Note 表示
+        // Noteがあれば表示
         if (p.note) {
           const noteEl = document.createElement("div");
           noteEl.className = "phrase-note";
           noteEl.textContent = p.note;
           div.appendChild(noteEl);
         }
+
+        // タグ群（タグがある場合のみ）
+        if (p.tags && p.tags.length > 0) {
+          const tagGroup = document.createElement("div");
+            p.tags.forEach(idx => {
+                const tagName = state.availableTags[idx];
+                const tagButton = document.createElement("button");
+                tagBtn.type = "button";
+                tagButton.classList.add('tagButton');
+                if (state.activeTagFilter === idx) {
+                  tagButton.classList.add('active');
+                }
+                tagButton.textContent = `#${tagName}`;
+                tagButton.onclick = (e) => {
+                    e.stopPropagation();
+                    toggleTagFilterFromList(idx);
+                };
+                tagGroup.appendChild(tagButton);
+            });
+            div.appendChild(tagGroup);
+        }
     
+        // ボタン群
         const buttonGroup = document.createElement("div");
         buttonGroup.className = "button-group";
     
+        const favoriteBtn = document.createElement("button");
+        favoriteBtn.innerHTML = p.favorite ? '<img src="assets/img/bookmark_on.svg" alt="Favorite">' : '<img src="assets/img/bookmark_off.svg" alt="Favorite">';
+        favoriteBtn.onclick = (e) => {
+            e.stopPropagation();
+            p.favorite = !p.favorite;
+            const tx = state.db.transaction("phrases", "readwrite");
+            tx.onerror = () => showToast('お気に入りの更新に失敗しました', true);
+            const store = tx.objectStore("phrases");
+            const req = store.put(p);
+            req.onerror = () => console.error('お気に入りの更新に失敗しました');
+            tx.oncomplete = () => loadAllPhrases();
+        };
+        buttonGroup.appendChild(favoriteBtn);
+
         const editBtn = document.createElement("button");
         editBtn.innerHTML = '<img src="assets/img/edit_list.svg" alt="Edit">';
         editBtn.onclick = () => {
@@ -187,32 +204,16 @@ export function renderPhraseList(phrases) {
             document.getElementById("saveButton").innerHTML = '<img src="assets/img/save.svg" alt>Update Phrase';
             showScreen('form');
         };
+        buttonGroup.appendChild(editBtn);
     
         const deleteBtn = document.createElement("button");
         deleteBtn.innerHTML = '<img src="assets/img/bin.svg" alt="Delete">';
         deleteBtn.onclick = () => deletePhrase(p.id);
         buttonGroup.appendChild(deleteBtn);
 
-        const favoriteBtn = document.createElement("button");
-        favoriteBtn.innerHTML = p.favorite ? '<img src="assets/img/bookmark_on.svg" alt="Favorite">' : '<img src="assets/img/bookmark_off.svg" alt="Favorite">';
-        favoriteBtn.onclick = (e) => {
-            e.stopPropagation();
-            p.favorite = !p.favorite;
-            const tx = state.db.transaction("phrases", "readwrite");
-            tx.onerror = () => showToast('お気に入りの更新に失敗しました', true);
-            const store = tx.objectStore("phrases");
-            const req = store.put(p);
-            req.onerror = () => console.error('お気に入りの更新に失敗しました');
-            tx.oncomplete = () => loadAllPhrases();
-        };
-    
-        buttonGroup.appendChild(favoriteBtn);
-        buttonGroup.appendChild(editBtn);
-        buttonGroup.appendChild(deleteBtn);
-    
-        div.appendChild(phraseText);
-        div.appendChild(tagGroup);
         div.appendChild(buttonGroup);
+
+        // phraseListに追加
         container.appendChild(div);
     });
 }
