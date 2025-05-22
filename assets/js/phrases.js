@@ -8,8 +8,9 @@ import { showToast } from './toast.js';
 // フレーズを保存する関数
 export function savePhrase() {
     const url = document.getElementById("youtubeUrl").value.trim();
-    const text = document.getElementById("phrase").value.trim();
     const rawTime = document.getElementById("startTime").value.trim();
+    const text = document.getElementById("phrase").value.trim();
+    const note = document.getElementById("note").value.trim();
     
     const videoId = extractVideoId(url);
     const time = parseTimeToSeconds(rawTime);
@@ -27,6 +28,7 @@ export function savePhrase() {
           videoId,
           time,
           text: text,
+          note,
           tags: [...state.selectedTags], // タグを保存
           favorite: false
         };
@@ -129,6 +131,14 @@ export function renderPhraseList(phrases) {
         const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
     
         const phraseText = document.createElement("span");
+
+        // 追加：Note 表示
+        if (p.note) {
+          const noteEl = document.createElement("div");
+          noteEl.className = "phrase-note";
+          noteEl.textContent = p.note;
+          div.appendChild(noteEl);
+        }
     
         if (p.tags && p.tags.length > 0) {
             (p.tags || []).forEach(idx => {
@@ -209,9 +219,10 @@ export function renderPhraseList(phrases) {
 
 // フォームを新規入力状態にリセットする関数
 export function resetFormToNewEntry() {
+    document.getElementById("youtubeUrl").value = "";
     document.getElementById("startTime").value = "";
     document.getElementById("phrase").value = "";
-    document.getElementById("youtubeUrl").value = "";
+    document.getElementById("note").value     = "";
     document.getElementById("saveButton").innerHTML = '<img src="assets/img/save.svg" alt>Save Phrase';
     state.editingId = null;
     state.selectedTags = [];
