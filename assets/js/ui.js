@@ -49,13 +49,10 @@ export function parseTimeToSeconds(timeStr) {
 
 // 画面を切り替える関数
 export function showScreen(screen) {
-    const listEl = document.getElementById('phraseList');
 
     // ▼ 一覧からフォームへ遷移する直前にスクロール位置を記録
-    if (screen === 'form' && listEl) {
+    if (screen === 'form') {
         state.lastListScroll = window.pageYOffset;
-        console.log('scroll_1 (page):', state.lastListScroll);
-        console.log('scroll_1' + state.lastListScroll);
     }
 
     document.getElementById('formScreen').classList.toggle('hidden', screen !== 'form');
@@ -63,10 +60,8 @@ export function showScreen(screen) {
     document.getElementById('videoScreen').classList.toggle('hidden', screen !== 'list');
 
     // ▼ 一覧を再表示した直後に、記録したスクロール位置をセット
-    if (screen === 'list' && listEl) {
+    if (screen === 'list') {
         window.scrollTo(0, state.lastListScroll);
-        console.log('scroll_2 (page):', window.pageYOffset);
-        console.log('scroll_2' + listEl.scrollTop);
     }
 
     // ナビゲーションボタンの active 状態切り替え
