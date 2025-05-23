@@ -29,7 +29,7 @@ export function savePhrase() {
           time,
           text: text,
           note,
-          tags: [...state.selectedTags], // タグを保存
+          tags: [...state.selectedTags].sort((a, b) => a - b), // タグを保存
           favorite: false
         };
         console.log('▶️ before save', JSON.stringify(entry));   // ← ★ここ
@@ -155,22 +155,22 @@ export function renderPhraseList(phrases) {
         if (p.tags && p.tags.length > 0) {
           const tagGroup = document.createElement("div");
           tagGroup.classList.add('tag-group');
-            p.tags.forEach(idx => {
-                const tagName = state.availableTags[idx];
-                const tagButton = document.createElement("button");
-                tagButton.type = "button";
-                tagButton.classList.add('tagButton');
-                if (state.activeTagFilter === idx) {
-                  tagButton.classList.add('active');
-                }
-                tagButton.textContent = `#${tagName}`;
-                tagButton.onclick = (e) => {
-                    e.stopPropagation();
-                    toggleTagFilterFromList(idx);
-                };
-                tagGroup.appendChild(tagButton);
-            });
-            div.appendChild(tagGroup);
+          [...p.tags].sort((a, b) => a - b).forEach(idx => {
+            const tagName = state.availableTags[idx];
+            const tagButton = document.createElement("button");
+            tagButton.type = "button";
+            tagButton.classList.add('tagButton');
+            if (state.activeTagFilter === idx) {
+              tagButton.classList.add('active');
+            }
+            tagButton.textContent = `#${tagName}`;
+            tagButton.onclick = (e) => {
+                e.stopPropagation();
+                toggleTagFilterFromList(idx);
+            };
+            tagGroup.appendChild(tagButton);
+          });
+          div.appendChild(tagGroup);
         }
     
         // ボタン群
