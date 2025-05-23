@@ -197,6 +197,7 @@ export function renderPhraseList(phrases) {
             document.getElementById("startTime").value = `${Math.floor(p.time/60)}:${(p.time%60).toString().padStart(2,'0')}`;
             document.getElementById("phrase").value = p.text;
             document.getElementById("youtubeUrl").value = `https://www.youtube.com/watch?v=${p.videoId}`;
+            document.getElementById("note").value = p.note || "";
             showVideo(p.videoId);
             state.currentVideoId = p.videoId; 
             state.editingId = p.id;
@@ -252,7 +253,18 @@ export async function exportPhrases() {
   });
 
   // 3) JSON 化してダウンロード
-  const data = { phrases, tags };
+  const data = {
+    phrases: phrases.map(p => ({ 
+      videoId: p.videoId,
+      time: p.time,
+      text: p.text,
+      note: p.note ?? "",
+      tags: p.tags,
+      favorite: p.favorite,
+      id: p.id
+    })),
+    tags
+  };
   const json = JSON.stringify(data, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
   const url  = URL.createObjectURL(blob);
